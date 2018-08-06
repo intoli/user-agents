@@ -66,7 +66,6 @@ jobs:
           name: Test
           command: |
             yarn test
-            yarn test:generated
 
   deploy:
     <<: *defaults
