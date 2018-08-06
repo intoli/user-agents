@@ -172,7 +172,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: "50 * * * *"
+          cron: "59 * * * *"
           filters:
             branches:
               only:
