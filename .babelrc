@@ -1,0 +1,31 @@
+{
+  "env": {
+    "testing": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }],
+        "power-assert"
+      ]
+    }
+  },
+  "presets": [["env", {
+    "targets": {
+      "browsers": [
+        "last 2 chrome versions",
+        "last 2 firefox versions",
+      ],
+      "node": "6.10"
+    }
+  }]],
+  "plugins": [
+      ["transform-builtin-extend", {
+            globals: ["Error"]
+      }],
+      "transform-class-properties",
+      "transform-object-rest-spread"
+  ]
+}
+
