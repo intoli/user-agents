@@ -7,7 +7,6 @@ const getNormalizedTiers = () => {
   if (normalizedTiers) {
     return normalizedTiers;
   }
-  const numberOfUserAgents = userAgents.length;
   const marketShares = userAgents.map(userAgent => userAgent.marketShare);
   const totalMarketShare = marketShares.reduce((total, marketShare) => total + marketShare);
   normalizedTiers = [];
@@ -22,12 +21,12 @@ const getNormalizedTiers = () => {
 
 
 const random = () => {
-  const normalizedTiers = getNormalizedTiers();
+  const tiers = getNormalizedTiers();
   const randomNumber = Math.random();
   // TODO: We should probably at least do bisection here.
   let index;
   for (index = 0; index < userAgents.length; index += 1) {
-    if (normalizedTiers[index] >= randomNumber) {
+    if (tiers[index] >= randomNumber) {
       break;
     }
   }
