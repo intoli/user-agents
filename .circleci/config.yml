@@ -1,0 +1,187 @@
+defaults: &defaults
+  working_directory: ~/user-agents
+  docker:
+    - image: circleci/node:latest
+
+whitelist: &whitelist
+  paths:
+    - .babelrc
+    - .eslintrc
+    - .gitignore
+    - dist/*
+    - LICENSE
+    - README.md
+    - package.json
+    - src/*
+    - test/*
+    - webpack.config.js
+    - yarn.lock
+
+version: 2
+jobs:
+  checkout:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Update Yarn
+          command: 'sudo npm install -g yarn@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: ~/user-agents
+          paths:
+          <<: *whitelist
+
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Build
+          command: yarn build
+      - persist_to_workspace:
+          root: ~/user-agents
+          paths:
+          <<: *whitelist
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Test
+          command: |
+            yarn test
+            yarn test:generated
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - run:
+          name: Write NPM Token to ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Write version to package.json
+          command: $(yarn bin)/dot-json package.json version ${CIRCLE_TAG:1}
+      - run:
+          name: Publish to NPM
+          command: npm publish --access=public
+
+  update:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - run:
+          name: Update the user agents data
+          command: yarn update-data
+      - persist_to_workspace:
+          root: ~/user-agents
+          paths:
+          <<: *whitelist
+
+  publish-new-version:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - run:
+          name: Commit the newly downloaded data
+            git add src/*
+            git commit -m 'Regularly scheduled user agent data update.'
+      - run:
+          name: Bump the patch version and trigger a new release
+          command: npm version patch && git push && git push --tags
+
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - checkout
+      - build:
+          filters:
+            tags:
+              ignore: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - checkout
+      - test:
+          filters:
+            tags:
+              ignore: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - build
+
+  release:
+    jobs:
+      - checkout:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+      - build:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - checkout
+      - test:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build
+      - deploy:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - test
+
+  scheduled-release:
+    triggers:
+      - schedule:
+        cron: "0 * * * *"
+        filters:
+          branches:
+            only:
+              - master
+
+    jobs:
+      - checkout
+      - update:
+          requires:
+            - checkout
+      - build:
+          requires:
+            - update
+      - test:
+          requires:
+            - build
+      - publish-new-version:
+          requires:
+            - test
