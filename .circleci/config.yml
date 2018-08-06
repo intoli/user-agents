@@ -105,6 +105,7 @@ jobs:
           at: ~/user-agents
       - run:
           name: Commit the newly downloaded data
+          command: |
             git add src/*
             # The status code will be 1 if there are no changes,
             # but we want to publish anyway to stay on a regular schedule.
