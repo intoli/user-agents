@@ -34,5 +34,8 @@
     "source-map-support": "^0.5.6",
     "webpack": "^4.10.2",
     "webpack-cli": "^2.1.4"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
   }
 }
