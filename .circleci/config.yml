@@ -106,7 +106,9 @@ jobs:
       - run:
           name: Commit the newly downloaded data
             git add src/*
-            git commit -m 'Regularly scheduled user agent data update.'
+            # The status code will be 1 if there are no changes,
+            # but we want to publish anyway to stay on a regular schedule.
+            git commit -m 'Regularly scheduled user agent data update.' || true
       - run:
           name: Bump the patch version and trigger a new release
           command: npm version patch && git push && git push --tags
