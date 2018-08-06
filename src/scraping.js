@@ -1,4 +1,5 @@
 import cheerio from 'cheerio';
+import fs from 'fs';
 import https from 'https';
 
 
@@ -23,6 +24,17 @@ const getUserAgentTable = () => new Promise((resolve, reject) => {
     });
   }).on('error', reject);
 });
+
+
+if (!module.parent) {
+  const filename = process.argv[2];
+  if (!filename) {
+    throw new Error('An output filename must be passed as an argument to the command.');
+  }
+  getUserAgentTable().then((userAgents) => {
+    fs.writeFileSync(filename, JSON.stringify(userAgents, null, 2));
+  });
+}
 
 
 export default getUserAgentTable;
