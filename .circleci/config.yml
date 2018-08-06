@@ -6,10 +6,12 @@ defaults: &defaults
 whitelist: &whitelist
   paths:
     - .babelrc
+    - .circleci/*
     - .eslintrc
     - .git/*
     - .gitignore
     - dist/*
+    - CONTRIBUTING.md
     - LICENSE
     - README.md
     - package.json
