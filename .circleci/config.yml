@@ -90,6 +90,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/user-agents
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Update the user agents data
           command: yarn update-data
