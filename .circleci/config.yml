@@ -117,6 +117,7 @@ jobs:
             git config --global user.name "User Agents"
             git config --global push.default "simple"
             # Disable strict host checking.
+            mkdir -p ~/.ssh/
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
             # The status code will be 1 if there are no changes,
             # but we want to publish anyway to stay on a regular schedule.
