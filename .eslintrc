@@ -1,0 +1,15 @@
+{
+  "env": {
+    "es6": true,
+    "mocha": true
+  },
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "rules": {
+    "no-await-in-loop": "off",
+    "object-curly-newline": ["error", {
+      "consistent": true,
+      "minProperties": 5
+    }]
+  }
+}
