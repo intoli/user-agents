@@ -90,6 +90,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/user-agents
+      - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
