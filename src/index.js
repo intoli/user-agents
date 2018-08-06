@@ -39,7 +39,9 @@ const userAgentsList = userAgents.map(userAgent => userAgent.userAgent);
 
 
 // eslint-disable-next-line import/prefer-default-export
+const defaultExports = { list: userAgentsList, random };
 export {
+  defaultExports as default,
   userAgentsList as list,
   random,
 };
