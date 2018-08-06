@@ -1,0 +1,4 @@
+.tern-port
+dist/
+node_modules/
+yarn-error.log
