@@ -34,5 +34,12 @@ const random = () => {
 };
 
 
+// List of user agents for backwards compatibility.
+const userAgentsList = userAgents.map(userAgent => userAgent.userAgent);
+
+
 // eslint-disable-next-line import/prefer-default-export
-export { random };
+export {
+  userAgentsList as list,
+  random,
+};
