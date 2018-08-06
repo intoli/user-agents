@@ -13,9 +13,11 @@ const getUserAgentTable = () => new Promise((resolve, reject) => {
       const userAgents = $('table.most-common-user-agents tbody tr')
         .map((index, element) => {
           const tr = $(element);
+          const [browser, operatingSystem] = tr.find('td.system').text().split('  ');
           return {
+            browser,
             marketShare: parseFloat(tr.find('td.percent').text().replace('%', '')) / 100.0,
-            system: tr.find('td.system').text(),
+            operatingSystem,
             useragent: tr.find('td.useragent').text(),
           };
         })
