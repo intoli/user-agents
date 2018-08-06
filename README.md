@@ -18,6 +18,35 @@ You can install it using your favorite JavaScript package manager in the usual w
 yarn add user-agents
 ```
 
+
+## Usage
+
+The `userAgents.random()` method can be used to generate a random user agent.
+The most common user agents are weighted with higher probabilities so that the randomly generated user agents will follow realistic probability distributions.
+For example, the following code snippet will generate five random user agents based on these probabilities.
+
+```javascript
+// Import the User Agents package.
+const userAgents = require('user-agents');
+
+// Log out five random user agents.
+for (let i = 0; i < 5; i++) {
+    const userAgent = userAgents.random();
+    console.log(userAgents);
+};
+```
+
+The output will be random, and will also depend on which package version you're using, but a typical output would look something like this.
+
+```literal
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0
+Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+```
+
+
 ## Contributing
 
 Contributions are welcome, but please follow these contributor guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
