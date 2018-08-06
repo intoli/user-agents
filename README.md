@@ -1,5 +1,10 @@
 # User Agents
 
+User Agents is a JavaScript module for generating random user agents according to how frequently they're used in the wild.
+This is useful for web scraping because it's often desired to create realistic traffic patterns.
+There are several other similar projects for generating random user agents, but User Agents is the only one that automatically publishes new versions with updated data on a regular basis.
+This ensures that your user agents will always be realistic and up to date.
+
 
 ## Installation
 
