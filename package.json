@@ -10,7 +10,8 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "lint": "eslint src/",
-    "test": "NODE_ENV=testing mocha --exit --require babel-register"
+    "test": "NODE_ENV=testing mocha --exit --require babel-register",
+    "update-data": "babel-node src/update-data.js src/user-agents.json"
   },
   "devDependencies": {
     "babel": "^6.23.0",
