@@ -47,6 +47,11 @@ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
 ```
 
 
+## Acknowledgements
+
+The user agent frequency data used in this library is currently provided by the [Will's House Tech Blog](https://techblog.willshouse.com/2012/01/03/most-common-user-agents/).
+
+
 ## Contributing
 
 Contributions are welcome, but please follow these contributor guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
