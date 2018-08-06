@@ -18,7 +18,7 @@ const getUserAgentTable = () => new Promise((resolve, reject) => {
             browser,
             marketShare: parseFloat(tr.find('td.percent').text().replace('%', '')) / 100.0,
             operatingSystem,
-            useragent: tr.find('td.useragent').text(),
+            userAgent: tr.find('td.useragent').text(),
           };
         })
         .get();
