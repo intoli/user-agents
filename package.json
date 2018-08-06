@@ -10,6 +10,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "lint": "eslint src/",
+    "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require babel-register",
     "update-data": "babel-node src/update-data.js src/user-agents.json"
   },
