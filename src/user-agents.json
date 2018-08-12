@@ -1,17 +1,17 @@
 [
   {
     "browser": "Chrome 67.0  Win10 16-bit",
-    "marketShare": 0.179,
+    "marketShare": 0.175,
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
     "browser": "Chrome 67.0  Win7 16-bit",
-    "marketShare": 0.054000000000000006,
+    "marketShare": 0.052000000000000005,
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
     "browser": "Firefox 61.0  Win10 16-bit",
-    "marketShare": 0.049,
+    "marketShare": 0.05,
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
@@ -21,13 +21,18 @@
   },
   {
     "browser": "Safari 11.1  macOS 16-bit",
-    "marketShare": 0.03,
+    "marketShare": 0.031,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15"
   },
   {
     "browser": "Chrome 67.0  macOS 16-bit",
-    "marketShare": 0.027999999999999997,
+    "marketShare": 0.026000000000000002,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+  },
+  {
+    "browser": "Firefox 61.0  Win7 16-bit",
+    "marketShare": 0.021,
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
     "browser": "Chrome 67.0  macOS 16-bit",
@@ -35,19 +40,14 @@
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
-    "browser": "Firefox 61.0  Win7 16-bit",
+    "browser": "Chrome Generic  Win10 16-bit",
     "marketShare": 0.02,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
   },
   {
     "browser": "Firefox 61.0  Linux 16-bit",
-    "marketShare": 0.02,
-    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
-  },
-  {
-    "browser": "Chrome Generic  Win10 16-bit",
     "marketShare": 0.019,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
+    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
     "browser": "Firefox 61.0  macOS 16-bit",
@@ -56,18 +56,13 @@
   },
   {
     "browser": "Chrome 67.0  Linux 16-bit",
-    "marketShare": 0.016,
+    "marketShare": 0.015,
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
     "browser": "Edge 17.0  Win10 16-bit",
     "marketShare": 0.015,
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134"
-  },
-  {
-    "browser": "Safari 11.1  macOS 16-bit",
-    "marketShare": 0.013999999999999999,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15"
   },
   {
     "browser": "Chrome 67.0  macOS 16-bit",
@@ -85,14 +80,29 @@
     "userAgent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
-    "browser": "Chrome 67.0  Win7 16-bit",
+    "browser": "Safari 11.1  macOS 16-bit",
+    "marketShare": 0.013000000000000001,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15"
+  },
+  {
+    "browser": "Chrome Generic  Win10 16-bit",
     "marketShare": 0.01,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
+  },
+  {
+    "browser": "Chrome 67.0  Win7 16-bit",
+    "marketShare": 0.009000000000000001,
     "userAgent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
     "browser": "Firefox 61.0  Linux 16-bit",
-    "marketShare": 0.006999999999999999,
+    "marketShare": 0.008,
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
+  },
+  {
+    "browser": "Chrome 67.0  MacOSX 16-bit",
+    "marketShare": 0.006999999999999999,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
     "browser": "Firefox 60.0  Win7 16-bit",
@@ -105,9 +115,9 @@
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
   },
   {
-    "browser": "Chrome 67.0  MacOSX 16-bit",
+    "browser": "Chrome Generic  Win7 16-bit",
     "marketShare": 0.006999999999999999,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
   },
   {
     "browser": "IE 11.0 for Desktop  Win10 16-bit",
@@ -115,23 +125,18 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
   },
   {
-    "browser": "Chrome Generic  Win10 16-bit",
-    "marketShare": 0.006999999999999999,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
-  },
-  {
-    "browser": "Chrome Generic  Win7 16-bit",
-    "marketShare": 0.006999999999999999,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
-  },
-  {
     "browser": "Chrome Generic  macOS 16-bit",
     "marketShare": 0.006,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
   },
   {
+    "browser": "Chrome 67.0  Win10 16-bit",
+    "marketShare": 0.005,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+  },
+  {
     "browser": "Chrome 67.0  Win7 16-bit",
-    "marketShare": 0.006,
+    "marketShare": 0.005,
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
@@ -140,14 +145,9 @@
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
-    "browser": "Chrome 67.0  Win10 16-bit",
+    "browser": "Chrome Generic  Linux 16-bit",
     "marketShare": 0.005,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
-  },
-  {
-    "browser": "Safari 11.1  macOS 16-bit",
-    "marketShare": 0.005,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15"
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
   },
   {
     "browser": "Safari 11.1  macOS 16-bit",
@@ -160,9 +160,14 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
   },
   {
-    "browser": "Chrome Generic  Linux 16-bit",
+    "browser": "Firefox 52.0  Linux 16-bit",
     "marketShare": 0.005,
-    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"
+  },
+  {
+    "browser": "Safari 11.1  macOS 16-bit",
+    "marketShare": 0.005,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15"
   },
   {
     "browser": "Firefox 60.0  Linux 16-bit",
@@ -170,14 +175,9 @@
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
   },
   {
-    "browser": "Firefox 52.0  Linux 16-bit",
+    "browser": "Chrome Generic  Linux 16-bit",
     "marketShare": 0.005,
-    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"
-  },
-  {
-    "browser": "Firefox 61.0  macOS 16-bit",
-    "marketShare": 0.005,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:61.0) Gecko/20100101 Firefox/61.0"
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
   },
   {
     "browser": "Headless Chrome  Linux 16-bit",
@@ -185,19 +185,19 @@
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/64.0.3282.119 Safari/537.36"
   },
   {
-    "browser": "Chrome Generic  Linux 16-bit",
-    "marketShare": 0.004,
-    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
+    "browser": "Firefox 61.0  macOS 16-bit",
+    "marketShare": 0.005,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
     "browser": "Chrome Generic  macOS 16-bit",
-    "marketShare": 0.004,
+    "marketShare": 0.005,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
   },
   {
-    "browser": "Firefox 61.0  Win8.1 16-bit",
+    "browser": "Firefox 60.0  Win10 16-bit",
     "marketShare": 0.004,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
   },
   {
     "browser": "Firefox 62.0  Win10 16-bit",
@@ -210,14 +210,19 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
-    "browser": "Firefox 60.0  Win10 16-bit",
+    "browser": "Firefox 61.0  Win8.1 16-bit",
     "marketShare": 0.004,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
+    "userAgent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
     "browser": "Safari 11.0  macOS 16-bit",
     "marketShare": 0.003,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
+  },
+  {
+    "browser": "Chrome Generic  Win7 16-bit",
+    "marketShare": 0.003,
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
   },
   {
     "browser": "Firefox 61.0  Win10 16-bit",
@@ -235,9 +240,9 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
   },
   {
-    "browser": "Chrome 67.0  Linux 16-bit",
+    "browser": "Mobile Safari 11.0  iOS 16-bit",
     "marketShare": 0.003,
-    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
+    "userAgent": "Mozilla/5.0 (iPad; CPU OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"
   },
   {
     "browser": "Chrome 67.0  MacOSX 16-bit",
@@ -250,6 +255,26 @@
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
   },
   {
+    "browser": "Firefox 56.0  Win7 16-bit",
+    "marketShare": 0.003,
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0"
+  },
+  {
+    "browser": "Chrome 67.0  Linux 16-bit",
+    "marketShare": 0.003,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
+  },
+  {
+    "browser": "Chrome Generic  macOS 16-bit",
+    "marketShare": 0.003,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
+  },
+  {
+    "browser": "Firefox 61.0  MacOSX 16-bit",
+    "marketShare": 0.002,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:61.0) Gecko/20100101 Firefox/61.0"
+  },
+  {
     "browser": "Firefox 52.0  Win7 16-bit",
     "marketShare": 0.002,
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0"
@@ -260,9 +285,14 @@
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
-    "browser": "Mobile Safari 11.0  iOS 16-bit",
+    "browser": "Chrome 67.0  macOS 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (iPad; CPU OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+  },
+  {
+    "browser": "Firefox 60.0  macOS 16-bit",
+    "marketShare": 0.002,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0) Gecko/20100101 Firefox/60.0"
   },
   {
     "browser": "Safari 11.1  MacOSX 16-bit",
@@ -270,34 +300,14 @@
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15"
   },
   {
-    "browser": "Chrome 67.0  macOS 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
-  },
-  {
-    "browser": "Firefox 61.0  MacOSX 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:61.0) Gecko/20100101 Firefox/61.0"
-  },
-  {
-    "browser": "Chrome 66.0  Win10 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
-  },
-  {
     "browser": "Firefox 61.0  Win7 16-bit",
     "marketShare": 0.002,
     "userAgent": "Mozilla/5.0 (Windows NT 6.1; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
-    "browser": "Chrome Generic  Win7 16-bit",
+    "browser": "Chrome 66.0  Win10 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
-  },
-  {
-    "browser": "Firefox 56.0  Win7 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0"
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
   },
   {
     "browser": "Chromium 66.0  Linux 16-bit",
@@ -310,24 +320,14 @@
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15"
   },
   {
-    "browser": "Chrome 67.0  Win7 16-bit",
+    "browser": "Chrome Generic  macOS 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.33 Safari/537.36"
   },
   {
     "browser": "Chrome 51.0  Linux 16-bit",
     "marketShare": 0.002,
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36"
-  },
-  {
-    "browser": "Firefox 60.0  macOS 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0) Gecko/20100101 Firefox/60.0"
-  },
-  {
-    "browser": "Chrome Generic  macOS 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.33 Safari/537.36"
   },
   {
     "browser": "Safari Generic  MacOSX 16-bit",
@@ -340,9 +340,14 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
   },
   {
-    "browser": "Opera Generic  Win10 16-bit",
+    "browser": "IE 11.0 for Desktop  Win7 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36 OPR/54.0.2952.51"
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko"
+  },
+  {
+    "browser": "Chrome 67.0  Win7 16-bit",
+    "marketShare": 0.002,
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
   },
   {
     "browser": "Firefox 61.0  Linux 16-bit",
@@ -350,19 +355,14 @@
     "userAgent": "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
   },
   {
-    "browser": "Chrome 65.0  Linux 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
-  },
-  {
     "browser": "Chrome Generic  macOS 16-bit",
     "marketShare": 0.002,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"
   },
   {
-    "browser": "IE 11.0 for Desktop  Win7 16-bit",
+    "browser": "Chrome 65.0  Linux 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko"
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
   },
   {
     "browser": "Safari 10.1  MacOSX 16-bit",
@@ -375,23 +375,13 @@
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
   },
   {
-    "browser": "Mobile Safari 11.0  iOS 16-bit",
+    "browser": "Opera Generic  Win10 16-bit",
     "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36 OPR/54.0.2952.51"
   },
   {
     "browser": "Chrome Generic  macOS 16-bit",
     "marketShare": 0.002,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3493.0 Safari/537.36"
-  },
-  {
-    "browser": "Chrome Generic  macOS 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
-  },
-  {
-    "browser": "Firefox 60.0  Linux 16-bit",
-    "marketShare": 0.002,
-    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
   }
 ]
