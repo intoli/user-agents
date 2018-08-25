@@ -1,4 +1,5 @@
 .tern-port
 dist/
+google-analytics-credentials.json
 node_modules/
 yarn-error.log
