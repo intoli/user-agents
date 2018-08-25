@@ -98,7 +98,9 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Update the user agents data
-          command: yarn update-data
+          command: |
+            echo "$GOOGLE_ANALYTICS_CREDENTIALS" | base64 --decode > ./google-analytics-credentials.json
+            yarn update-data
       - persist_to_workspace:
           root: ~/user-agents
           paths:
