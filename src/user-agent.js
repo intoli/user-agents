@@ -1,14 +1,26 @@
 import userAgents from './user-agents.json';
 
 
+// Normalizes the total weight to 1 and constructs a cumulative distribution.
+const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
+  const totalWeight = weightIndexPairs.reduce((sum, [weight]) => sum + weight, 0);
+  let sum = 0;
+  return weightIndexPairs.map(([weight, index]) => {
+    sum += weight / totalWeight;
+    return [sum, index];
+  });
+};
+
+// Precompute these so that we can quickly generate unfiltered user agents.
 const defaultWeightIndexPairs = userAgents.map(({ weight }, index) => [weight, index]);
+const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(defaultWeightIndexPairs);
 
 
 export default class UserAgent extends Function {
   constructor(filters) {
     super();
     this.filter(filters);
-    if (this.weightIndexPairs.length === 0) {
+    if (this.cumulativeWeightIndexPairs.length === 0) {
       return null;
     }
 
@@ -24,7 +36,7 @@ export default class UserAgent extends Function {
   filter = (filters) => {
     if (!filters) {
       this.userAgents = userAgents;
-      this.weightIndexPairs = defaultWeightIndexPairs;
+      this.cumulativeWeightIndexPairs = defaultCumulativeWeightIndexPairs;
       return;
     }
 
@@ -48,16 +60,14 @@ export default class UserAgent extends Function {
       );
     }
 
-    // Construct normalized weight index pairs given the filters.
-    this.weightIndexPairs = [];
-    let totalWeight = 0;
+    // Construct normalized cumulative weight index pairs given the filters.
+    const weightIndexPairs = [];
     userAgents.forEach((rawUserAgent, index) => {
       if (filter(rawUserAgent)) {
-        this.weightIndexPairs.push([rawUserAgent.weight, index]);
-        totalWeight += rawUserAgent.weight;
+        weightIndexPairs.push([rawUserAgent.weight, index]);
       }
     });
-    this.weightIndexPairs = this.weightIndexPairs.map(([weight, index]) => [weight / totalWeight, index]);
+    this.cumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(weightIndexPairs);
   };
 
   random = () => {
