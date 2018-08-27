@@ -179,7 +179,43 @@ const parseSessions = (rawSessions) => {
 };
 
 
-const getUserAgentTable = () => Promise.resolve();
+const getUserAgentTable = async () => {
+  // Fetch the sessions and process them into parsed objects.
+  const rawSessions = await getRawSessions();
+  const sessions = parseSessions(rawSessions);
+
+  // Calculate the number of unique occurrences of each fingerprint.
+  const uniqueSessions = {};
+  Object.values(sessions).forEach((session) => {
+    const uniqueKey = jsonStableStringify(session);
+    if (!uniqueSessions[uniqueKey]) {
+      uniqueSessions[uniqueKey] = {
+        ...session,
+        weight: 0,
+      };
+      delete uniqueSessions[uniqueKey].timestamp;
+    }
+    uniqueSessions[uniqueKey].weight += 1;
+  });
+
+  // Normalize the weights to 1.
+  let totalWeight = 0;
+  Object.values(uniqueSessions).forEach((session) => {
+    // eslint-disable-next-line no-param-reassign
+    session.weight = Array(2 * session.weight).fill().reduce(sum => sum + (n()() ** 2), 0) / 2;
+    totalWeight += session.weight;
+  });
+  Object.values(uniqueSessions).forEach((session) => {
+    // eslint-disable-next-line no-param-reassign
+    session.weight /= totalWeight;
+  });
+
+  // Sort them by descreasing weight.
+  const sessionList = Object.values(uniqueSessions);
+  sessionList.sort((a, b) => b.weight - a.weight);
+
+  return sessionList;
+};
 
 
 if (!module.parent) {
