@@ -29,6 +29,32 @@ const standardDimensionMap = {
 };
 
 
+// These primarily help map missing data to `null`/`undefined` properly.
+const parseCustomDimension = (value, json = false) => {
+  if (value === 'null') {
+    return null;
+  }
+  if (value === 'undefined') {
+    return undefined;
+  }
+  if (json && value) {
+    return parseCustomDimension(JSON.parse(value));
+  }
+  if (typeof value === 'object') {
+    const parsedObject = {};
+    Object.entries(value).forEach(([key, childValue]) => {
+      parsedObject[key] = parseCustomDimension(childValue);
+    });
+    return parsedObject;
+  }
+  return value;
+};
+
+const parseStandardDimension = value => (
+  value === '(not set)' ? null : value
+);
+
+
 const getUserAgentTable = () => Promise.resolve();
 
 
