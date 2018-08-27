@@ -150,6 +150,17 @@ const parseSessions = (rawSessions) => {
     Object.entries(customDimensionMap).forEach(([rawDimension, dimension]) => {
       const json = dimension === 'connection';
       session[dimension] = parseCustomDimension(rawSession[rawDimension], json);
+      if (dimension === 'connection' && session[dimension]) {
+        if (session[dimension].rtt) {
+          session[dimension].rtt = parseInt(session[dimension].rtt, 10);
+        }
+        if (session[dimension].downlink) {
+          session[dimension].downlink = parseFloat(session[dimension].downlink);
+        }
+        if (session[dimension].downlinkMax) {
+          session[dimension].downlinkMax = parseFloat(session[dimension].downlinkMax);
+        }
+      }
 
       if (dimension === 'pluginsLength') {
         session[dimension] = parseInt(session[dimension], 10);
