@@ -9,5 +9,11 @@ describe('UserAgent', () => {
       const userAgent = new UserAgent();
       assert(userAgent.weightIndexPairs.length > 100);
     });
+
+    it('have a shorter length when a filter is applied', () => {
+      const userAgent = new UserAgent();
+      const filteredUserAgent = new UserAgent({ deviceCategory: 'mobile' });
+      assert(userAgent.weightIndexPairs.length > filteredUserAgent.weightIndexPairs.length);
+    });
   });
 });
