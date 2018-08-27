@@ -84,7 +84,7 @@ const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, rejec
       return reject(error);
     }
     return resolve(data.rows);
-  });
+  }, { cacheDir: '.' });
 });
 
 
