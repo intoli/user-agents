@@ -16,6 +16,19 @@ describe('UserAgent', () => {
     });
   });
 
+  describe('static random()', () => {
+    it('return null when no filters match', () => {
+      const userAgent = UserAgent.random({ deviceCategory: 'fake-no-matches' });
+      assert(userAgent === null);
+    });
+
+    it('return a valid user agent when a filter matches', () => {
+      const userAgent = UserAgent.random({ userAgent: /Chrome/ });
+      assert(userAgent.toString().includes('Chrome'));
+      assert(/Chrome/.test(userAgent));
+    });
+  });
+
   describe('cumulativeWeightIndexPairs', () => {
     it('have a length greater than 100', () => {
       const userAgent = new UserAgent();
