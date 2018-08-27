@@ -55,6 +55,39 @@ const parseStandardDimension = value => (
 );
 
 
+const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, reject) => {
+  // Fetch session data from the last 24-48 hours.
+  const maximumAgeInDays = process.env.MAXIMUM_AGE || 1;
+  const endDate = moment().format('YYYY-MM-DD');
+  const startDate = moment().subtract(maximumAgeInDays, 'days').format('YYYY-MM-DD');
+
+  // This is the maximum value allowed by the API.
+  const maxResults = 10000;
+  const startIndex = 1 + (page * maxResults);
+
+  gaApi({
+    // Credential details.
+    clientId: 'user-agents-npm-package-update.apps.googleusercontent.com',
+    email: 'user-agents-npm-package-update@user-agents-npm-package.iam.gserviceaccount.com',
+    key: 'google-analytics-credentials.json',
+    ids: 'ga:115995502',
+    // Request details.
+    endDate,
+    dimensions: dimensions.join(','),
+    maxResults,
+    metrics: 'ga:sessions',
+    sort: sessionIdDimension,
+    startDate,
+    startIndex,
+  }, (error, data) => {
+    if (error) {
+      return reject(error);
+    }
+    return resolve(data.rows);
+  });
+});
+
+
 const getUserAgentTable = () => Promise.resolve();
 
 
