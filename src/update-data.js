@@ -140,6 +140,45 @@ const getRawSessions = async () => {
 };
 
 
+const parseSessions = (rawSessions) => {
+  const sessions = {};
+  Object.entries(rawSessions).forEach(([sessionId, rawSession]) => {
+    const session = {
+      timestamp: parseInt(sessionId.split('-')[0], 10),
+    };
+
+    Object.entries(customDimensionMap).forEach(([rawDimension, dimension]) => {
+      const json = dimension === 'connection';
+      session[dimension] = parseCustomDimension(rawSession[rawDimension], json);
+
+      if (dimension === 'pluginsLength') {
+        session[dimension] = parseInt(session[dimension], 10);
+      }
+    });
+
+    Object.entries(standardDimensionMap).forEach(([rawDimension, dimension]) => {
+      const value = parseStandardDimension(rawSession[rawDimension]);
+      if (dimension === 'browserSize' || dimension === 'screenResolution') {
+        let height = null;
+        let width = null;
+        if (/\d+x\d+/.test(value)) {
+          [width, height] = value.split('x').map(pixels => parseInt(pixels, 10));
+        }
+        const dimensionPrefix = dimension === 'browserSize' ? 'viewport' : 'screen';
+        session[`${dimensionPrefix}Height`] = height;
+        session[`${dimensionPrefix}Width`] = width;
+      } else {
+        session[dimension] = value;
+      }
+    });
+
+    sessions[sessionId] = session;
+  });
+
+  return sessions;
+};
+
+
 const getUserAgentTable = () => Promise.resolve();
 
 
