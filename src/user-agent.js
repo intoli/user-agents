@@ -21,16 +21,20 @@ export default class UserAgent extends Function {
     super();
     this.filter(filters);
     if (this.cumulativeWeightIndexPairs.length === 0) {
-      return null;
+      throw new Error('No user agents matched your filters.');
     }
 
     this.currentUserAgentProperties = new Set();
     this.randomize();
   }
 
-  static random = (filters) => (
-    new UserAgent(filters)
-  );
+  static random = (filters) => {
+    try {
+      return new UserAgent(filters);
+    } catch (error) {
+      return null;
+    }
+  };
 
   // This is an internal method, you probably don't want to every call this.
   filter = (filters) => {
