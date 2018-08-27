@@ -4,6 +4,18 @@ import UserAgent from '../src/user-agent';
 
 
 describe('UserAgent', () => {
+  describe('constructor', () => {
+    it('throw an error when no filters match', () => {
+      let storedError;
+      try {
+        const userAgent = new UserAgent({ deviceCategory: 'fake-no-matches' });
+      } catch (error) {
+        storedError = error;
+      }
+      assert(storedError);
+    });
+  });
+
   describe('cumulativeWeightIndexPairs', () => {
     it('have a length greater than 100', () => {
       const userAgent = new UserAgent();
