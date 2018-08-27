@@ -1,31 +1,8 @@
-import cheerio from 'cheerio';
 import fs from 'fs';
-import https from 'https';
 
 
-const getUserAgentTable = () => new Promise((resolve, reject) => {
-  const url = 'https://techblog.willshouse.com/2012/01/03/most-common-user-agents/';
-  https.get(url, (response) => {
-    let body = '';
-    response.on('data', (data) => { body += data; });
-    response.on('end', () => {
-      const $ = cheerio.load(body);
-      const userAgents = $('table.most-common-user-agents tbody tr')
-        .map((index, element) => {
-          const tr = $(element);
-          const [browser, operatingSystem] = tr.find('td.system').text().split('  ');
-          return {
-            browser,
-            marketShare: parseFloat(tr.find('td.percent').text().replace('%', '')) / 100.0,
-            operatingSystem,
-            userAgent: tr.find('td.useragent').text(),
-          };
-        })
-        .get();
-      resolve(userAgents);
-    });
-  }).on('error', reject);
-});
+
+const getUserAgentTable = () => Promise.resolve();
 
 
 if (!module.parent) {
