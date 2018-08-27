@@ -88,6 +88,58 @@ const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, rejec
 });
 
 
+const getRawSessions = async () => {
+  // We can request a maximum of 7 dimensions at once, so we need to break these up into groups
+  // of 6 + 1 (the 1 being the session ID). We can then join these together into higher dimensional
+  // objects based on the common session IDs.
+  const maximumDimensionsPerRequest = 7;
+  const dimensions = Object.keys(customDimensionMap).concat(Object.keys(standardDimensionMap));
+  const dimensionGroupCount = Math.ceil(dimensions.length / (maximumDimensionsPerRequest - 1));
+  const dimensionGroups = [];
+  for (let i = 0; i < dimensionGroupCount; i += 1) {
+    const startIndex = (maximumDimensionsPerRequest - 1) * i;
+    const endIndex = (startIndex + maximumDimensionsPerRequest) - 1;
+    dimensionGroups.push([sessionIdDimension].concat(dimensions.slice(startIndex, endIndex)));
+  }
+
+  // Now we loop through and paginate the results, joining the dimensions by session ID as we go.
+  const sessions = {};
+  const groupCounts = {};
+  let page = 0;
+  let newRowCount;
+  do {
+    newRowCount = 0;
+    for (let groupIndex = 0; groupIndex < dimensionGroupCount; groupIndex += 1) {
+      const dimensionGroup = dimensionGroups[groupIndex];
+      const rows = (await fetchAnalyticsRows(dimensionGroup, page)) || [];
+      newRowCount = Math.max(newRowCount, rows.length);
+      rows.forEach((row) => {
+        const sessionId = row[0];
+        groupCounts[sessionId] = (groupCounts[sessionId] || 0) + 1;
+
+        sessions[sessionId] = sessions[sessionId] || {};
+        // Exclude the session ID (first) and the session count metric (last).
+        row.slice(1, -1).forEach((value, index) => {
+          sessions[sessionId][dimensionGroup[index + 1]] = value;
+        });
+      });
+    }
+
+    // Move on to the next page of requests if necessary.
+    page += 1;
+  } while (newRowCount > 0);
+
+  // Delete any partial data.
+  Object.keys(sessions).forEach((sessionId) => {
+    if (groupCounts[sessionId] !== dimensionGroupCount) {
+      delete sessions[sessionId];
+    }
+  });
+
+  return sessions;
+};
+
+
 const getUserAgentTable = () => Promise.resolve();
 
 
