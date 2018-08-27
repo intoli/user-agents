@@ -4,7 +4,7 @@ import fs from 'fs';
 import jsonStableStringify from 'json-stable-stringify';
 import gaApi from 'ga-api';
 import moment from 'moment';
-import { normal as n } from 'random';
+import random from 'random';
 
 
 // Custom dimensions, see: https://intoli.com/blog/user-agents/
@@ -200,6 +200,8 @@ const getUserAgentTable = async () => {
 
   // Normalize the weights to 1.
   let totalWeight = 0;
+
+  const n = () => random.normal();
   Object.values(uniqueSessions).forEach((session) => {
     // eslint-disable-next-line no-param-reassign
     session.weight = Array(2 * session.weight).fill().reduce(sum => sum + (n()() ** 2), 0) / 2;
