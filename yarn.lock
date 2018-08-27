@@ -4504,6 +4504,14 @@ output-file-sync@^1.1.2:
     mkdirp "^0.5.1"
     object-assign "^4.1.0"
 
+ow-lite@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ow-lite/-/ow-lite-0.0.2.tgz#df9f500e6740b6590a1e9a965730d49a8eb597d1"
+
+ow@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ow/-/ow-0.4.0.tgz#119a846d23738ce11677331fef8a3fbe019eb05b"
+
 p-cancelable@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-0.3.0.tgz#b9e123800bcebb7ac13a479be195b507b98d30fa"
@@ -4934,6 +4942,14 @@ querystring-es3@^0.2.0:
 querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
+
+random@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/random/-/random-2.0.12.tgz#8b33686639fd26959b40ff11f9186a43c1272f3c"
+  dependencies:
+    babel-runtime "^6.26.0"
+    ow "^0.4.0"
+    ow-lite "^0.0.2"
 
 randomatic@^3.0.0:
   version "3.0.0"
