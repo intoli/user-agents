@@ -40,13 +40,13 @@ export default class UserAgent extends Function {
   // Standard Object Methods
   //
 
-  [Symbol.toPrimitive] = () => {
-    return this.userAgent;
-  };
+  [Symbol.toPrimitive] = () => (
+    this.userAgent
+  );
 
-  toString = () => {
-    return this.userAgent;
-  };
+  toString = () => (
+    this.userAgent
+  );
 
 
   // This is an internal method, you probably don't want to every call this.
@@ -63,7 +63,7 @@ export default class UserAgent extends Function {
       filter = filters;
     } else if (typeof filters === 'object') {
       // TODO: Handle nested properties.
-      filter = (rawUserAgent) => (
+      filter = rawUserAgent => (
         Object.entries(filters).every(([key, valueFilter]) => {
           const value = rawUserAgent[key];
           if (typeof valueFilter === 'function') {
@@ -97,7 +97,7 @@ export default class UserAgent extends Function {
   randomize = () => {
     // Find a random raw random user agent.
     const randomNumber = Math.random();
-    const [cumulativeWeight, index] = this.cumulativeWeightIndexPairs
+    const [, index] = this.cumulativeWeightIndexPairs
       .find(([cumulativeWeight]) => cumulativeWeight > randomNumber);
     const rawUserAgent = userAgents[index];
 
@@ -111,4 +111,4 @@ export default class UserAgent extends Function {
       this[key] = value;
     });
   }
-};
+}
