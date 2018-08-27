@@ -36,6 +36,19 @@ export default class UserAgent extends Function {
     }
   };
 
+  //
+  // Standard Object Methods
+  //
+
+  [Symbol.toPrimitive] = () => {
+    return this.userAgent;
+  };
+
+  toString = () => {
+    return this.userAgent;
+  };
+
+
   // This is an internal method, you probably don't want to every call this.
   filter = (filters) => {
     if (!filters) {
