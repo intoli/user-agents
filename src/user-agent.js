@@ -91,9 +91,24 @@ export default class UserAgent extends Function {
     const userAgent = new UserAgent();
     userAgent.userAgents = this.userAgents;
     userAgent.randomize();
+    return userAgent;
   };
 
   randomize = () => {
-    // TODO: Populate the random properties.
+    // Find a random raw random user agent.
+    const randomNumber = Math.random();
+    const [cumulativeWeight, index] = this.cumulativeWeightIndexPairs
+      .find(([cumulativeWeight]) => cumulativeWeight > randomNumber);
+    const rawUserAgent = userAgents[index];
+
+    // Strip off any existing properties from previous randomizations.
+    this.currentUserAgentProperties.forEach((property) => { delete this[property]; });
+    this.currentUserAgentProperties.clear();
+
+    // Attach the new properties.
+    Object.entries(rawUserAgent).forEach(([key, value]) => {
+      this.currentUserAgentProperties.add(key);
+      this[key] = value;
+    });
   }
 };
