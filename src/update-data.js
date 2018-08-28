@@ -40,7 +40,7 @@ const parseCustomDimension = (value, json = false) => {
   if (json && value) {
     return parseCustomDimension(JSON.parse(value));
   }
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value !== null) {
     const parsedObject = {};
     Object.entries(value).forEach(([key, childValue]) => {
       parsedObject[key] = parseCustomDimension(childValue);
