@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import fs from 'fs';
+import { gzip } from 'zlib';
 
 import jsonStableStringify from 'json-stable-stringify';
 import gaApi from 'ga-api';
@@ -236,8 +237,20 @@ if (!module.parent) {
   if (!filename) {
     throw new Error('An output filename must be passed as an argument to the command.');
   }
-  getUserAgentTable().then((userAgents) => {
-    fs.writeFileSync(filename, JSON.stringify(userAgents, null, 2));
+  getUserAgentTable().then(async (userAgents) => {
+    const stringifiedUserAgents = JSON.stringify(userAgents, null, 2);
+    // Compress the content if the extension ends with `.gz`.
+    const content = filename.endsWith('.gz')
+      ? await new Promise((resolve, reject) => {
+        gzip(stringifiedUserAgents, (error, data) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(data);
+        });
+      })
+      : stringifiedUserAgents;
+    fs.writeFileSync(filename, content);
   });
 }
 
