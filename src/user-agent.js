@@ -26,6 +26,10 @@ export default class UserAgent extends Function {
 
     this.currentUserAgentProperties = new Set();
     this.randomize();
+
+    return new Proxy(this, {
+      apply: () => this.random(),
+    });
   }
 
   static random = (filters) => {
@@ -52,7 +56,6 @@ export default class UserAgent extends Function {
   // This is an internal method, you probably don't want to every call this.
   filter = (filters) => {
     if (!filters) {
-      this.userAgents = userAgents;
       this.cumulativeWeightIndexPairs = defaultCumulativeWeightIndexPairs;
       return;
     }
@@ -89,7 +92,7 @@ export default class UserAgent extends Function {
 
   random = () => {
     const userAgent = new UserAgent();
-    userAgent.userAgents = this.userAgents;
+    userAgent.cumulativeWeightIndexPairs = this.cumulativeWeightIndexPairs;
     userAgent.randomize();
     return userAgent;
   };
