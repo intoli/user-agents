@@ -161,7 +161,7 @@ In this example, we'll use the [useragent](https://www.npmjs.com/package/userage
 
 ```javascript
 import UserAgent from 'user-agents';
-import { parse } from 'useragents';
+import { parse } from 'useragent';
 
 const userAgent = new UserAgent((data) => {
   const os = parse(data.userAgent).os;
