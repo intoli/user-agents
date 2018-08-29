@@ -53,7 +53,9 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Build
-          command: yarn build
+          command: |
+            yarn gunzip-data
+            yarn build
       - persist_to_workspace:
           root: ~/user-agents
           paths:
@@ -98,7 +100,9 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Update the user agents data
-          command: yarn update-data
+          command: |
+            echo "$GOOGLE_ANALYTICS_CREDENTIALS" | base64 --decode > ./google-analytics-credentials.json
+            yarn update-data
       - persist_to_workspace:
           root: ~/user-agents
           paths:
@@ -183,7 +187,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: "00 06 * * *"
+          cron: "40 * * * *"
           filters:
             branches:
               only:

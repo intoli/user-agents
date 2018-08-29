@@ -9,10 +9,11 @@
   "private": false,
   "scripts": {
     "build": "NODE_ENV=production webpack",
+    "gunzip-data": "babel-node src/gunzip-data.js src/user-agents.json.gz",
     "lint": "eslint src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require babel-register",
-    "update-data": "babel-node src/update-data.js src/user-agents.json"
+    "update-data": "babel-node src/update-data.js src/user-agents.json.gz"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -30,14 +31,18 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.12.0",
+    "ga-api": "0.0.4",
     "imports-loader": "^0.8.0",
+    "json-stable-stringify": "^1.0.1",
     "mocha": "^5.2.0",
+    "moment": "^2.22.2",
     "power-assert": "^1.5.0",
+    "random": "^2.0.12",
     "source-map-support": "^0.5.6",
     "webpack": "^4.10.2",
     "webpack-cli": "^2.1.4"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2"
+    "lodash.clonedeep": "^4.5.0"
   }
 }
