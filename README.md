@@ -152,7 +152,7 @@ You can continue to use older versions of the software, but you'll need to upgra
 ## Acknowledgements
 
 The user agent frequency data used in this library is generously provided by [Intoli](https://intoli.com), the premier residential and smart proxy provider for web scraping.
-The details of how the data is updated can be found in the blog post [User-Agents — A random user agent generation library that's always up to date](https://intoli.com/blog/user-agents).
+The details of how the data is updated can be found in the blog post [User-Agents — A random user agent generation library that's always up to date](https://intoli.com/blog/user-agents/).
 
 If you have a high-traffic website and would like to contribute data to the project, then send us an email at [contact@intoli.com](mailto:contact@intoli.com).
 Additional data sources will help make the library more useful, and we'll be happy to add a link to your site in the acknowledgements.
