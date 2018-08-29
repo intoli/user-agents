@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash.clonedeep';
+
 import userAgents from './user-agents.json';
 
 
@@ -124,6 +126,6 @@ export default class UserAgent extends Function {
       .find(([cumulativeWeight]) => cumulativeWeight > randomNumber);
     const rawUserAgent = userAgents[index];
 
-    this.data = rawUserAgent;
+    this.data = cloneDeep(rawUserAgent);
   }
 }
