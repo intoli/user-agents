@@ -29,7 +29,7 @@ const constructFilter = (filters, accessor = parentObject => parentObject) => {
         typeof value === 'object' && value && value.userAgent
           ? filters.test(value.userAgent)
           : filters.test(value)
-      )
+      ),
     ];
   } else if (filters instanceof Array) {
     childFilters = filters.map(childFilter => constructFilter(childFilter));
@@ -43,7 +43,7 @@ const constructFilter = (filters, accessor = parentObject => parentObject) => {
         typeof value === 'object' && value && value.userAgent
           ? filters === value.userAgent
           : filters === value
-      )
+      ),
     ];
   }
 
