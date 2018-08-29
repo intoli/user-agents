@@ -18,32 +18,55 @@ const defaultWeightIndexPairs = userAgents.map(({ weight }, index) => [weight, i
 const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(defaultWeightIndexPairs);
 
 
+// Turn the various filter formats into a single filter function that acts on raw user agents.
+const constructFilter = (filters, accessor = parentObject => parentObject) => {
+  let childFilters;
+  if (typeof filters === 'function') {
+    childFilters = [filters];
+  } else if (filters instanceof RegExp) {
+    childFilters = [
+      value => (
+        typeof value === 'object' && value && value.userAgent
+          ? filters.test(value.userAgent)
+          : filters.test(value)
+      )
+    ];
+  } else if (filters instanceof Array) {
+    childFilters = filters.map(childFilter => constructFilter(childFilter));
+  } else if (typeof filters === 'object') {
+    childFilters = Object.entries(filters).map(([key, valueFilter]) => (
+      constructFilter(valueFilter, parentObject => parentObject[key])
+    ));
+  } else {
+    childFilters = [
+      value => (
+        typeof value === 'object' && value && value.userAgent
+          ? filters === value.userAgent
+          : filters === value
+      )
+    ];
+  }
+
+  return (parentObject) => {
+    try {
+      const value = accessor(parentObject);
+      return childFilters.every(childFilter => childFilter(value));
+    } catch (error) {
+      // This happens when a user-agent lacks a nested property.
+      return false;
+    }
+  };
+};
+
+
+// Construct normalized cumulative weight index pairs given the filters.
 const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
   if (!filters) {
     return defaultCumulativeWeightIndexPairs;
   }
 
-  // Turn the various filter formats into a single filter function that acts on raw user agents.
-  let filter;
-  if (typeof filters === 'function') {
-    filter = filters;
-  } else if (typeof filters === 'object') {
-    // TODO: Handle nested properties.
-    filter = rawUserAgent => (
-      Object.entries(filters).every(([key, valueFilter]) => {
-        const value = rawUserAgent[key];
-        if (typeof valueFilter === 'function') {
-          return valueFilter(value);
-        }
-        if (valueFilter instanceof RegExp) {
-          return valueFilter.test(value);
-        }
-        return valueFilter === value;
-      })
-    );
-  }
+  const filter = constructFilter(filters);
 
-  // Construct normalized cumulative weight index pairs given the filters.
   const weightIndexPairs = [];
   userAgents.forEach((rawUserAgent, index) => {
     if (filter(rawUserAgent)) {
