@@ -16,10 +16,46 @@ const defaultWeightIndexPairs = userAgents.map(({ weight }, index) => [weight, i
 const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(defaultWeightIndexPairs);
 
 
+const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
+  if (!filters) {
+    return defaultCumulativeWeightIndexPairs;
+  }
+
+  // Turn the various filter formats into a single filter function that acts on raw user agents.
+  let filter;
+  if (typeof filters === 'function') {
+    filter = filters;
+  } else if (typeof filters === 'object') {
+    // TODO: Handle nested properties.
+    filter = rawUserAgent => (
+      Object.entries(filters).every(([key, valueFilter]) => {
+        const value = rawUserAgent[key];
+        if (typeof valueFilter === 'function') {
+          return valueFilter(value);
+        }
+        if (valueFilter instanceof RegExp) {
+          return valueFilter.test(value);
+        }
+        return valueFilter === value;
+      })
+    );
+  }
+
+  // Construct normalized cumulative weight index pairs given the filters.
+  const weightIndexPairs = [];
+  userAgents.forEach((rawUserAgent, index) => {
+    if (filter(rawUserAgent)) {
+      weightIndexPairs.push([rawUserAgent.weight, index]);
+    }
+  });
+  return makeCumulativeWeightIndexPairs(weightIndexPairs);
+};
+
+
 export default class UserAgent extends Function {
   constructor(filters) {
     super();
-    this.filter(filters);
+    this.cumulativeWeightIndexPairs = constructCumulativeWeightIndexPairsFromFilters(filters)
     if (this.cumulativeWeightIndexPairs.length === 0) {
       throw new Error('No user agents matched your filters.');
     }
@@ -51,44 +87,6 @@ export default class UserAgent extends Function {
   toString = () => (
     this.userAgent
   );
-
-
-  // This is an internal method, you probably don't want to every call this.
-  filter = (filters) => {
-    if (!filters) {
-      this.cumulativeWeightIndexPairs = defaultCumulativeWeightIndexPairs;
-      return;
-    }
-
-    // Turn the various filter formats into a single filter function that acts on raw user agents.
-    let filter;
-    if (typeof filters === 'function') {
-      filter = filters;
-    } else if (typeof filters === 'object') {
-      // TODO: Handle nested properties.
-      filter = rawUserAgent => (
-        Object.entries(filters).every(([key, valueFilter]) => {
-          const value = rawUserAgent[key];
-          if (typeof valueFilter === 'function') {
-            return valueFilter(value);
-          }
-          if (valueFilter instanceof RegExp) {
-            return valueFilter.test(value);
-          }
-          return valueFilter === value;
-        })
-      );
-    }
-
-    // Construct normalized cumulative weight index pairs given the filters.
-    const weightIndexPairs = [];
-    userAgents.forEach((rawUserAgent, index) => {
-      if (filter(rawUserAgent)) {
-        weightIndexPairs.push([rawUserAgent.weight, index]);
-      }
-    });
-    this.cumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(weightIndexPairs);
-  };
 
   random = () => {
     const userAgent = new UserAgent();
