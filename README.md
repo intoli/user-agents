@@ -58,32 +58,85 @@ yarn add user-agents
 ```
 
 
-## Usage
+## Examples
 
-The `userAgents.random()` method can be used to generate a random user agent.
-The most common user agents are weighted with higher probabilities so that the randomly generated user agents will follow realistic probability distributions.
-For example, the following code snippet will generate five random user agents based on these probabilities.
+
+## API
+
+### class: UserAgent([filters])
+
+- `filters` <`Array`, `Function`, `Number`, `Object`, `RegExp`, or `String`> - A set of filters to apply to the generated user agents.
+    The filter specification is extremely flexible, and reading through the [Examples](#examples) section is the best way to familiarize yourself with what sort of filtering is possible.
+
+`UserAgent` is an object that contains the details of a randomly generated user agent and corresponding browser fingerprint.
+Each time the class is instantiated, it will randomly populate the instance with a new user agent based on the specified filters.
+The instantiated class can be cast to a user agent string by explicitly calling `toString()`, accessing the `userAgent` property, or implicitly converting the type to a primitive or string in the standard JavaScript ways (*e.g.* `` `${userAgent}` ``).
+Other properties can be accessed as outlined below.
+
+
+#### userAgent.random()
+
+- returns: <`UserAgent`>
+
+This method generates a new `UserAgent` instance using the same filters that were used to construct `userAgent`.
+The following two examples accomplish the same effect.
 
 ```javascript
-// Import the User Agents package.
-const userAgents = require('user-agents');
-
-// Log out five random user agents.
-for (let i = 0; i < 5; i++) {
-    const userAgent = userAgents.random();
-    console.log(userAgents);
-};
+// Explicitly use the constructor twice.
+const firstUserAgent = new UserAgent(filters);
+const secondUserAgent = new UserAgent(filters);
 ```
 
-The output will be random, and will also depend on which package version you're using, but a typical output would look something like this.
-
-```literal
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0
-Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+```javascript
+// Use the `random()` method to construct a second user agent.
+const firstUserAgent = new UserAgent(filters);
+const secondUserAgent = firstUserAgent.random();
 ```
+
+The reason to prefer the second pattern is that it reuses the filter processing and preparation of the data for random selection.
+Subsequent random generations can easily be over 100x faster than the initial construction.
+
+
+#### userAgent()
+
+- returns: <`UserAgent`>
+
+As a bit of syntactic sugar, you can call a `UserAgent` instance like `userAgent()` as a shorthand for `userAgent.random()`.
+This allows you to think of the instance as a generator, and lends itself to writing code like this.
+
+```javascript
+const generateUserAgent = new UserAgent(filters);
+const userAgents = Array(100).fill().map(() => generateUserAgent());
+```
+
+#### userAgent.toString()
+
+- returns: <`String`>
+
+Casts the `UserAgent` instance to a string which corresponds to the user agent header.
+Equivalent to accessing the `userAgent.userAgent` property.
+
+
+#### userAgent.data
+
+- returns: <`Object`>
+    - `appName` <`String`> - The value of [navigator.appName](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorID/appName).
+    - `connection` <`Object`> - The value of [navigator.connection](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection).
+    - `cpuClass` <`String`> - The value of [navigator.cpuClass](https://msdn.microsoft.com/en-us/library/ms531090\(v=vs.85\).aspx).
+    - `deviceCategory` <`String`> - One of `desktop`, `mobile`, or `tablet` depending on the type of device.
+    - `oscpu` <`String`> - The value of [navigator.oscpu](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/oscpu).
+    - `platform` <`String`> - The value of [navigator.platform](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorID/platform).
+    - `pluginsLength` <`Number`> - The value of [navigator.plugins.length](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorPlugins/plugins).
+    - `screenHeight` <`Number`> - The value of [screen.height](https://developer.mozilla.org/en-US/docs/Web/API/Screen/height).
+    - `screenWidth` <`Number`> - The value of [screen.width](https://developer.mozilla.org/en-US/docs/Web/API/Screen/width).
+    - `vendor` <`String`> - The value of [navigator.vendor](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vendor).
+    - `userAgent` <`String`> - The value of [navigator.userAgent](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorID/userAgent).
+    - `viewportHeight` <`Number`> - The value of [window.innerHeight](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight).
+    - `viewportWidth` <`Number`> - The value of [window.innerWidth](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth).
+
+The `userAgent.data` contains the randomly generated fingerprint for the `UserAgent` instance.
+Note that each property of `data` is also accessible directly on `userAgent`.
+For example, `userAgent.appName` is equivalent to `userAgent.data.appName`.
 
 
 ## Versioning
