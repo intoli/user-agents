@@ -60,6 +60,138 @@ yarn add user-agents
 
 ## Examples
 
+The User-Agents library offers a very flexible interface for generating user agents.
+These examples illustrate some common use cases, and show how the filtering API can be used in practice.
+
+
+### Generating a Random User Agent
+
+The most basic usage involves simply instantiating a `UserAgent` instance.
+It will be automatically populated with a random user agent and browser fingerprint.
+
+
+```javascript
+import UserAgent from 'user-agents';
+
+
+const userAgent = new UserAgent();
+console.log(userAgent.toString());
+console.log(JSON.stringify(userAgent.data, null, 2));
+```
+
+In this example, we've generated a random user agent and then logged out stringified versions both the `userAgent.data` object and `userAgent` itself to the console.
+An example output might look something like this.
+
+```literal
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36
+```
+
+```json
+{
+  "appName": "Netscape",
+  "connection": {
+    "downlink": 10,
+    "effectiveType": "4g",
+    "rtt": 0
+  },
+  "platform": "Win32",
+  "pluginsLength": 3,
+  "vendor": "Google Inc.",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
+  "viewportHeight": 660,
+  "viewportWidth": 1260,
+  "deviceCategory": "desktop",
+  "screenHeight": 800,
+  "screenWidth": 1280
+}
+```
+
+The `userAgent.toString()` call converts the user agent into a string which corresponds to the actual user agent.
+The `data` property includes a randomly generated browser fingerprint that can be used for more detailed emulation.
+
+
+### Restricting Device Categories
+
+By passing an object as a filter, each corresponding user agent property will be restricted based on their values.
+
+```javascript
+import UserAgent from 'user-agents';
+
+const userAgent = new UserAgent({ deviceCategory: 'mobile' })
+```
+
+This code will limit generate a user agent with a `deviceCategory` of `mobile`.
+If you replace `mobile` with either `desktop` or `tablet`, then the user agent will correspond to one of those device types instead.
+
+
+### Generating Multiple User Agents With The Same Filters
+
+There is some computational overhead involved with applying a set of filters, so it's far more efficient to reuse the filter initialization when you need to generate many user agents based on the same filters.
+You can call any initialized `UserAgent` instance like a function, and it will generate a new random instance with the same filters (you can also call `userAgent.random()` if you're not a fan of the shorthand).
+
+```javascript
+import UserAgent from 'user-agents';
+
+const userAgent = new UserAgent({ platform: 'Win32' });
+const userAgents = Array.fill(1000).map(() => userAgent());
+```
+
+This code example initializes a single user agent with a filter that limits the platform to `Win32`, and then uses that instance to generate 1000 more user agents with the same filter.
+
+
+### Regular Expression Matching
+
+You can pass a regular expression as a filter and the generated user agent will be guaranteed to match that regular expression.
+
+```javascript
+import UserAgent from 'user-agents';
+
+const userAgent = new UserAgent(/Safari/);
+```
+
+This example will generate a user agent that contains a `Safari` substring.
+
+
+### Custom Filter Functions
+
+It's also possible to implement completely custom logic by using a filter as a function.
+The raw `userAgent.data` object will be passed into your function, and it will be included as a possible candidate only if your function returns `true`.
+In this example, we'll use the [useragent](https://www.npmjs.com/package/useragent) package to parse the user agent string and then restrict the generated user agents to iOS devices with an operating system version of 11 or greater.
+
+```javascript
+import UserAgent from 'user-agents';
+import { parse } from 'useragents';
+
+const userAgent = new UserAgent((data) => {
+  const os = parse(data.userAgent).os;
+  return os.family === 'iOS' && parseInt(os.major, 10) > 11;
+});
+```
+
+The filtering that you apply here is completely up to you, so there's really no limit to how detailed the filtering can be.
+
+
+### Combining Filters With Arrays
+
+You can also use arrays to specify collections of filters that will all be applied.
+This example combines a regular expression filter with an object filter to generate a user agent with a connection type of `wifi`, a platform of `MacIntel`, and a user agent that includes a `Safari` substring.
+
+```javascript
+import UserAgent from 'user-agents';
+
+const userAgent = new UserAgent([
+  /Safari/,
+  {
+    connection: {
+      type: 'wifi',
+    },
+    platform: 'MacIntel',
+  },
+]);
+```
+
+This example also shows that you can specify both multiple and nested properties on object filters.
+
 
 ## API
 
