@@ -9,6 +9,7 @@
   "private": false,
   "scripts": {
     "build": "NODE_ENV=production webpack",
+    "gunzip-data": "babel-node src/gunzip-data.js src/user-agents.json.gz",
     "lint": "eslint src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require babel-register",
