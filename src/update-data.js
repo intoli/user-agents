@@ -58,7 +58,7 @@ const parseStandardDimension = value => (
 
 const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, reject) => {
   // Fetch session data from the last 24-48 hours.
-  const maximumAgeInDays = process.env.MAXIMUM_AGE || 1;
+  const maximumAgeInDays = parseInt(process.env.MAXIMUM_AGE || 1, 10);
   const endDate = moment().format('YYYY-MM-DD');
   const startDate = moment().subtract(maximumAgeInDays, 'days').format('YYYY-MM-DD');
 
