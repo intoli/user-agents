@@ -79,6 +79,16 @@ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
 ```
 
 
+## Versioning
+
+The project follows [the Semantic Versioning guidelines](https://semver.org/).
+The automated deployments will always correspond to patch versions, and minor versions should not introduce breaking changes.
+It's likely that the structure of user agent data will change in the future, and this will correspond to a new major version.
+
+Please keep in mind that older major versions will cease to be updated after a new major version is released.
+You can continue to use older versions of the software, but you'll need to upgrade to get access to the latest data.
+
+
 ## Acknowledgements
 
 The user agent frequency data used in this library is generously provided by [Intoli](https://intoli.com), the premier residential and smart proxy provider for web scraping.
