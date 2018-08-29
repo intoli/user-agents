@@ -13,7 +13,7 @@ const customDimensionMap = {
   'ga:dimension1': 'appName',
   'ga:dimension2': 'connection',
   'ga:dimension3': 'cpuClass',
-  'ga:dimension5': 'osCpu',
+  'ga:dimension5': 'oscpu',
   'ga:dimension6': 'platform',
   'ga:dimension7': 'pluginsLength',
   'ga:dimension8': 'vendor',
