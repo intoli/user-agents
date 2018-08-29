@@ -134,7 +134,7 @@ You can call any initialized `UserAgent` instance like a function, and it will g
 import UserAgent from 'user-agents';
 
 const userAgent = new UserAgent({ platform: 'Win32' });
-const userAgents = Array.fill(1000).map(() => userAgent());
+const userAgents = Array(1000).fill().map(() => userAgent());
 ```
 
 This code example initializes a single user agent with a filter that limits the platform to `Win32`, and then uses that instance to generate 1000 more user agents with the same filter.
