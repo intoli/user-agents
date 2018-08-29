@@ -113,7 +113,7 @@ The `data` property includes a randomly generated browser fingerprint that can b
 
 ### Restricting Device Categories
 
-By passing an object as a filter, each corresponding user agent property will be restricted based on their values.
+By passing an object as a filter, each corresponding user agent property will be restricted based on its values.
 
 ```javascript
 import UserAgent from 'user-agents';
@@ -121,7 +121,7 @@ import UserAgent from 'user-agents';
 const userAgent = new UserAgent({ deviceCategory: 'mobile' })
 ```
 
-This code will limit generate a user agent with a `deviceCategory` of `mobile`.
+This code will generate a user agent with a `deviceCategory` of `mobile`.
 If you replace `mobile` with either `desktop` or `tablet`, then the user agent will correspond to one of those device types instead.
 
 
