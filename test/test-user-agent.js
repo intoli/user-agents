@@ -14,6 +14,20 @@ describe('UserAgent', () => {
         assert(userAgent().deviceCategory === 'tablet');
       });
     });
+
+    it('support top-level regular expressions', () => {
+      const userAgent = new UserAgent(/Safari/);
+      range.forEach(() => {
+        assert(/Safari/.test(userAgent()));
+      });
+    });
+
+    it('support object property regular expressions', () => {
+      const userAgent = new UserAgent({ userAgent: /Safari/ });
+      range.forEach(() => {
+        assert(/Safari/.test(userAgent()));
+      });
+    });
   });
 
   describe('constructor', () => {
