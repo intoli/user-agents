@@ -29,6 +29,15 @@ describe('UserAgent', () => {
     });
   });
 
+  describe('call handler', () => {
+    it('produce new user agents that pass the same filters', () => {
+      const userAgent = UserAgent.random({ userAgent: /Chrome/ });
+      Array(1000).fill().forEach(() => {
+        assert(/Chrome/.test(userAgent()));
+      });
+    });
+  });
+
   describe('cumulativeWeightIndexPairs', () => {
     it('have a length greater than 100', () => {
       const userAgent = new UserAgent();
