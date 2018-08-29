@@ -42,7 +42,7 @@ The User-Agents package provides a comprehensive dataset of real-world user agen
 Unlike other random user agent generation libraries, the User-Agents package is updated automatically on a daily basis.
 This means that you can use it without worrying about whether the data will be stale in a matter of months.
 
-Generating a realistic random user agent is as simple as running `new UserAgent()`, but you can also restrict the generated user agent to a specific platform, device category, or even operating system version.
+Generating a realistic random user agent is as simple as running `new UserAgent()`, but you can also easily generate user agents which correspond to a specific platform, device category, or even operating system version.
 The fastest way to get started is to hop down to the [Examples](#examples) section where you can see it in action!
 
 
@@ -127,7 +127,7 @@ If you replace `mobile` with either `desktop` or `tablet`, then the user agent w
 
 ### Generating Multiple User Agents With The Same Filters
 
-There is some computational overhead involved with applying a set of filters, so it's far more efficient to reuse the filter initialization when you need to generate many user agents based on the same filters.
+There is some computational overhead involved with applying a set of filters, so it's far more efficient to reuse the filter initialization when you need to generate many user agents with the same configuration.
 You can call any initialized `UserAgent` instance like a function, and it will generate a new random instance with the same filters (you can also call `userAgent.random()` if you're not a fan of the shorthand).
 
 ```javascript
@@ -169,7 +169,7 @@ const userAgent = new UserAgent((data) => {
 });
 ```
 
-The filtering that you apply here is completely up to you, so there's really no limit to how detailed the filtering can be.
+The filtering that you apply here is completely up to you, so there's really no limit to how specific it can be.
 
 
 ### Combining Filters With Arrays
@@ -212,7 +212,7 @@ Other properties can be accessed as outlined below.
 - returns: <`UserAgent`>
 
 This method generates a new `UserAgent` instance using the same filters that were used to construct `userAgent`.
-The following two examples accomplish the same effect.
+The following examples both generate two user agents based on the same filters.
 
 ```javascript
 // Explicitly use the constructor twice.
