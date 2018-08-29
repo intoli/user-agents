@@ -15,6 +15,22 @@ describe('UserAgent', () => {
       });
     });
 
+    it('support nested object properties', () => {
+      const userAgent = new UserAgent({ connection: { effectiveType: '4g' }});
+      range.forEach(() => {
+        assert(userAgent().connection.effectiveType === '4g');
+      });
+    });
+
+    it('support multiple object properties', () => {
+      const userAgent = new UserAgent({ deviceCategory: 'mobile', pluginsLength: 0 });
+      range.forEach(() => {
+        const { deviceCategory, pluginsLength } = userAgent();
+        assert(deviceCategory === 'mobile');
+        assert(pluginsLength === 0);
+      });
+    });
+
     it('support top-level regular expressions', () => {
       const userAgent = new UserAgent(/Safari/);
       range.forEach(() => {
