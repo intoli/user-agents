@@ -116,7 +116,7 @@ jobs:
       - run:
           name: Commit the newly downloaded data
           command: |
-            git add src/*
+            git add src/user-agents.json.gz
             # Configure some identity details for the machine deployment account.
             git config --global user.email "user-agents@intoli.com"
             git config --global user.name "User Agents"
