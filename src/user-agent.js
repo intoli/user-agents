@@ -70,11 +70,23 @@ export default class UserAgent extends Function {
       throw new Error('No user agents matched your filters.');
     }
 
-    this.currentUserAgentProperties = new Set();
     this.randomize();
 
     return new Proxy(this, {
       apply: () => this.random(),
+      get: (target, property, receiver) => {
+        const dataCandidate = target.data && typeof property === 'string'
+          && Object.prototype.hasOwnProperty.call(target.data, property)
+          && Object.prototype.propertyIsEnumerable.call(target.data, property);
+        if (dataCandidate) {
+          const value = target.data[property];
+          if (value !== undefined) {
+            return value;
+          }
+        }
+
+        return Reflect.get(target, property, receiver);
+      },
     });
   }
 
@@ -91,11 +103,11 @@ export default class UserAgent extends Function {
   //
 
   [Symbol.toPrimitive] = () => (
-    this.userAgent
+    this.data.userAgent
   );
 
   toString = () => (
-    this.userAgent
+    this.data.userAgent
   );
 
   random = () => {
@@ -112,14 +124,6 @@ export default class UserAgent extends Function {
       .find(([cumulativeWeight]) => cumulativeWeight > randomNumber);
     const rawUserAgent = userAgents[index];
 
-    // Strip off any existing properties from previous randomizations.
-    this.currentUserAgentProperties.forEach((property) => { delete this[property]; });
-    this.currentUserAgentProperties.clear();
-
-    // Attach the new properties.
-    Object.entries(rawUserAgent).forEach(([key, value]) => {
-      this.currentUserAgentProperties.add(key);
-      this[key] = value;
-    });
+    this.data = rawUserAgent;
   }
 }
