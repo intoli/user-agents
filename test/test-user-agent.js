@@ -28,6 +28,22 @@ describe('UserAgent', () => {
         assert(/Safari/.test(userAgent()));
       });
     });
+
+    it('support top-level arrays', () => {
+      const userAgent = new UserAgent([/Android/, /Linux/]);
+      range.forEach(() => {
+        const randomUserAgent = userAgent();
+        assert(/Android/.test(randomUserAgent) && /Linux/.test(randomUserAgent));
+      });
+    });
+
+    it('support object property arrays', () => {
+      const userAgent = new UserAgent({ deviceCategory: [/(tablet|mobile)/, 'mobile'] });
+      range.forEach(() => {
+        const { deviceCategory } = userAgent();
+        assert(deviceCategory === 'mobile');
+      });
+    });
   });
 
   describe('constructor', () => {
