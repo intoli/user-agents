@@ -30,12 +30,19 @@
             alt="Share on Hacker News"></a>
 </p>
 
-# User Agents
 
-User Agents is a JavaScript module for generating random user agents according to how frequently they're used in the wild.
-This is useful for web scraping because it's often desired to create realistic traffic patterns.
-There are several other similar projects for generating random user agents, but User Agents is the only one that automatically publishes new versions with updated data on a regular basis.
-This ensures that your user agents will always be realistic and up to date.
+###### [Installation](#installation) | [Examples](#examples) | [API](#api) | [How it Works](https://intoli.com/blog/user-agents/) | [Contributing](#contributing)
+
+> User-Agents is a JavaScript package for generating random [User Agents](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) based on how frequently they're used in the wild.
+> A new version of the package is automatically released every day, so the data is always up to date.
+> The generated data includes hard to find browser-fingerprint properties, and powerful filtering capabilities allow you to restrict the generated user agents to fit your exact needs.
+
+Web scraping often involves creating realistic traffic patterns, and doing so generally requires a good source of data.
+The User-Agents package provides a comprehensive dataset of real-world user agents and browser properties that are often used for browser finerprinting and blocking automated web browsers.
+Unlike other random user agent generation libraries, the User-Agents package is updated automatically on a daily basis.
+This means that you can use it without worrying about whether the data will be stale in a matter of months.
+
+The fastest way to get started is to hop down to the [Examples](#examples) section and see it in action!
 
 
 ## Installation
