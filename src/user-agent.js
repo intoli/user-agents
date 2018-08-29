@@ -52,10 +52,20 @@ const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
 };
 
 
+const setCumulativeWeightIndexPairs = (userAgent, cumulativeWeightIndexPairs) => {
+  Object.defineProperty(userAgent, 'cumulativeWeightIndexPairs', {
+    configurable: true,
+    enumerable: false,
+    writable: false,
+    value: cumulativeWeightIndexPairs,
+  });
+};
+
+
 export default class UserAgent extends Function {
   constructor(filters) {
     super();
-    this.cumulativeWeightIndexPairs = constructCumulativeWeightIndexPairsFromFilters(filters)
+    setCumulativeWeightIndexPairs(this, constructCumulativeWeightIndexPairsFromFilters(filters));
     if (this.cumulativeWeightIndexPairs.length === 0) {
       throw new Error('No user agents matched your filters.');
     }
@@ -90,7 +100,7 @@ export default class UserAgent extends Function {
 
   random = () => {
     const userAgent = new UserAgent();
-    userAgent.cumulativeWeightIndexPairs = this.cumulativeWeightIndexPairs;
+    setCumulativeWeightIndexPairs(userAgent, this.cumulativeWeightIndexPairs);
     userAgent.randomize();
     return userAgent;
   };
