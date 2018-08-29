@@ -101,6 +101,7 @@ jobs:
           command: |
             echo "$GOOGLE_ANALYTICS_CREDENTIALS" | base64 --decode > ./google-analytics-credentials.json
             yarn update-data
+            yarn gunzip-data
       - persist_to_workspace:
           root: ~/user-agents
           paths:
