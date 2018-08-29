@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import fs from 'fs';
-import { gzip } from 'zlib';
+import { gzipSync } from 'zlib';
 
 import jsonStableStringify from 'json-stable-stringify';
 import gaApi from 'ga-api';
@@ -241,14 +241,7 @@ if (!module.parent) {
     const stringifiedUserAgents = JSON.stringify(userAgents, null, 2);
     // Compress the content if the extension ends with `.gz`.
     const content = filename.endsWith('.gz')
-      ? await new Promise((resolve, reject) => {
-        gzip(stringifiedUserAgents, (error, data) => {
-          if (error) {
-            return reject(error);
-          }
-          return resolve(data);
-        });
-      })
+      ? gzipSync(stringifiedUserAgents)
       : stringifiedUserAgents;
     fs.writeFileSync(filename, content);
   });
