@@ -3,7 +3,19 @@ import assert from 'assert';
 import UserAgent from '../src/user-agent';
 
 
+const range = Array(1).fill();
+
+
 describe('UserAgent', () => {
+  describe('filtering', () => {
+    it('support object properties', () => {
+      const userAgent = new UserAgent({ deviceCategory: 'tablet' });
+      range.forEach(() => {
+        assert(userAgent().deviceCategory === 'tablet');
+      });
+    });
+  });
+
   describe('constructor', () => {
     it('throw an error when no filters match', () => {
       let storedError;
