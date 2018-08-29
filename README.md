@@ -81,7 +81,11 @@ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
 
 ## Acknowledgements
 
-The user agent frequency data used in this library is currently provided by the [Will's House Tech Blog](https://techblog.willshouse.com/2012/01/03/most-common-user-agents/).
+The user agent frequency data used in this library is generously provided by [Intoli](https://intoli.com), the premier residential and smart proxy provider for web scraping.
+The details of how the data is updated can be found in the blog post [User-Agents — A random user agent generation library that's always up to date](https://intoli.com/blog/user-agents).
+
+If you have a high-traffic website and would like to contribute data to the project, then send us an email at [contact@intoli.com](mailto:contact@intoli.com).
+Additional data sources will help make the library more useful, and we'll be happy to add a link to your site in the acknowledgements.
 
 
 ## Contributing
