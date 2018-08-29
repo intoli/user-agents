@@ -95,4 +95,4 @@ Contributions are welcome, but please follow these contributor guidelines outlin
 
 ## License
 
-Slice is licensed under a [BSD 2-Clause License](LICENSE) and is copyright [Intoli, LLC](https://intoli.com).
+User-Agents is licensed under a [BSD 2-Clause License](LICENSE) and is copyright [Intoli, LLC](https://intoli.com).
