@@ -3,7 +3,9 @@ import assert from 'assert';
 import UserAgent from '../src/user-agent';
 
 
-const range = Array(1).fill();
+// The randomization tests will be repeated once for each element in the range.
+// We should add a more sophisticated RNG with seeding support for additional testing.
+const range = Array(1000).fill();
 
 
 describe('UserAgent', () => {
