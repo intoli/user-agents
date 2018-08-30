@@ -199,6 +199,11 @@ const getUserAgentTable = async () => {
   // Calculate the number of unique occurrences of each fingerprint.
   const uniqueSessions = {};
   Object.values(sessions).forEach((session) => {
+    // Exclude headless browser user agents.
+    if (/headless/i.test(session.userAgent)) {
+      return;
+    }
+
     const uniqueKey = jsonStableStringify(session);
     if (!uniqueSessions[uniqueKey]) {
       uniqueSessions[uniqueKey] = {
