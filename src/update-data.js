@@ -39,7 +39,12 @@ const parseCustomDimension = (value, json = false) => {
     return undefined;
   }
   if (json && value) {
-    return parseCustomDimension(JSON.parse(value));
+    try {
+      return parseCustomDimension(JSON.parse(value));
+    } catch (error) {
+      console.error(`Error parsing "${value}" as JSON.`, error);
+      return null;
+    }
   }
   if (typeof value === 'object' && value !== null) {
     const parsedObject = {};
