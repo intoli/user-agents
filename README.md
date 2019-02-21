@@ -198,7 +198,7 @@ This example also shows that you can specify both multiple and nested properties
 
 ### class: UserAgent([filters])
 
-- `filters` <`Array`, `Function`, `Number`, `Object`, `RegExp`, or `String`> - A set of filters to apply to the generated user agents.
+- `filters` <`Array`, `Function`, `Object`, `RegExp`, or `String`> - A set of filters to apply to the generated user agents.
     The filter specification is extremely flexible, and reading through the [Examples](#examples) section is the best way to familiarize yourself with what sort of filtering is possible.
 
 `UserAgent` is an object that contains the details of a randomly generated user agent and corresponding browser fingerprint.
