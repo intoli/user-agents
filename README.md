@@ -38,7 +38,7 @@
 > The generated data includes hard to find browser-fingerprint properties, and powerful filtering capabilities allow you to restrict the generated user agents to fit your exact needs.
 
 Web scraping often involves creating realistic traffic patterns, and doing so generally requires a good source of data.
-The User-Agents package provides a comprehensive dataset of real-world user agents and other browser properties which are commonly used for browser finerprinting and blocking automated web browsers.
+The User-Agents package provides a comprehensive dataset of real-world user agents and other browser properties which are commonly used for browser fingerprinting and blocking automated web browsers.
 Unlike other random user agent generation libraries, the User-Agents package is updated automatically on a daily basis.
 This means that you can use it without worrying about whether the data will be stale in a matter of months.
 
