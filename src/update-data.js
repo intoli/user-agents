@@ -60,7 +60,7 @@ const parseStandardDimension = value => (
 );
 
 
-const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, reject) => {
+const fetchAnalyticsRows = (viewId, dimensions, page = 0) => new Promise((resolve, reject) => {
   // Fetch session data from the last 24-48 hours.
   const maximumAgeInDays = parseInt(process.env.MAXIMUM_AGE || 1, 10);
   const endDate = moment().format('YYYY-MM-DD');
@@ -75,7 +75,7 @@ const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, rejec
     clientId: process.env.GOOGLE_CLIENT_ID,
     email: process.env.GOOGLE_CLIENT_EMAIL,
     key: process.env.GOOGLE_KEY_FILE,
-    ids: process.env.GOOGLE_ANALYTICS_VIEW_IDS,
+    ids: viewId,
     // Request details.
     endDate,
     dimensions: dimensions.join(','),
@@ -110,29 +110,31 @@ const getRawSessions = async () => {
   // Now we loop through and paginate the results, joining the dimensions by session ID as we go.
   const sessions = {};
   const groupCounts = {};
-  let page = 0;
-  let newRowCount;
-  do {
-    newRowCount = 0;
-    for (let groupIndex = 0; groupIndex < dimensionGroupCount; groupIndex += 1) {
-      const dimensionGroup = dimensionGroups[groupIndex];
-      const rows = (await fetchAnalyticsRows(dimensionGroup, page)) || [];
-      newRowCount = Math.max(newRowCount, rows.length);
-      rows.forEach((row) => {
-        const sessionId = row[0];
-        groupCounts[sessionId] = (groupCounts[sessionId] || 0) + 1;
+  for (const viewId of process.env.GOOGLE_ANALYTICS_VIEW_IDS.split(',')) {
+    let page = 0;
+    let newRowCount;
+    do {
+      newRowCount = 0;
+      for (let groupIndex = 0; groupIndex < dimensionGroupCount; groupIndex += 1) {
+        const dimensionGroup = dimensionGroups[groupIndex];
+        const rows = (await fetchAnalyticsRows(viewId, dimensionGroup, page)) || [];
+        newRowCount = Math.max(newRowCount, rows.length);
+        rows.forEach((row) => {
+          const sessionId = row[0];
+          groupCounts[sessionId] = (groupCounts[sessionId] || 0) + 1;
 
-        sessions[sessionId] = sessions[sessionId] || {};
-        // Exclude the session ID (first) and the session count metric (last).
-        row.slice(1, -1).forEach((value, index) => {
-          sessions[sessionId][dimensionGroup[index + 1]] = value;
+          sessions[sessionId] = sessions[sessionId] || {};
+          // Exclude the session ID (first) and the session count metric (last).
+          row.slice(1, -1).forEach((value, index) => {
+            sessions[sessionId][dimensionGroup[index + 1]] = value;
+          });
         });
-      });
-    }
+      }
 
-    // Move on to the next page of requests if necessary.
-    page += 1;
-  } while (newRowCount > 0);
+      // Move on to the next page of requests if necessary.
+      page += 1;
+    } while (newRowCount > 0);
+  }
 
   // Delete any partial data.
   Object.keys(sessions).forEach((sessionId) => {
