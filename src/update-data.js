@@ -7,7 +7,6 @@ import gaApi from 'ga-api';
 import moment from 'moment';
 import random from 'random';
 
-
 // Custom dimensions, see: https://intoli.com/blog/user-agents/
 const customDimensionMap = {
   'ga:dimension1': 'appName',
@@ -73,10 +72,10 @@ const fetchAnalyticsRows = (dimensions, page = 0) => new Promise((resolve, rejec
 
   gaApi({
     // Credential details.
-    clientId: 'user-agents-npm-package-update.apps.googleusercontent.com',
-    email: 'user-agents-npm-package-update@user-agents-npm-package.iam.gserviceaccount.com',
-    key: 'google-analytics-credentials.json',
-    ids: 'ga:115995502',
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    email: process.env.GOOGLE_CLIENT_EMAIL,
+    key: process.env.GOOGLE_KEY_FILE,
+    ids: process.env.GOOGLE_ANALYTICS_VIEW_IDS,
     // Request details.
     endDate,
     dimensions: dimensions.join(','),
