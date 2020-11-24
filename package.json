@@ -42,6 +42,7 @@
     "power-assert": "^1.6.1",
     "random": "^2.2.0",
     "source-map-support": "^0.5.19",
+    "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"
   },
