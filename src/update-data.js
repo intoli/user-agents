@@ -6,6 +6,9 @@ import jsonStableStringify from 'json-stable-stringify';
 import gaApi from 'ga-api';
 import moment from 'moment';
 import random from 'random';
+import Debug from 'debug';
+
+const debug = Debug('user-agents:update-data');
 
 // Custom dimensions, see: https://intoli.com/blog/user-agents/
 const customDimensionMap = {
@@ -28,6 +31,8 @@ const standardDimensionMap = {
   'ga:screenResolution': 'screenResolution',
 };
 
+// This is the maximum value allowed by the API.
+const MAX_RESULTS = 10000;
 
 // These primarily help map missing data to `null`/`undefined` properly.
 const parseCustomDimension = (value, json = false) => {
@@ -41,7 +46,7 @@ const parseCustomDimension = (value, json = false) => {
     try {
       return parseCustomDimension(JSON.parse(value));
     } catch (error) {
-      console.error(`Error parsing "${value}" as JSON.`, error);
+      debug(`Error parsing "${value}" as JSON.`, error);
       return null;
     }
   }
@@ -65,12 +70,9 @@ const fetchAnalyticsRows = (viewId, dimensions, page = 0) => new Promise((resolv
   const maximumAgeInDays = parseInt(process.env.MAXIMUM_AGE || 1, 10);
   const endDate = moment().format('YYYY-MM-DD');
   const startDate = moment().subtract(maximumAgeInDays, 'days').format('YYYY-MM-DD');
+  const startIndex = 1 + (page * MAX_RESULTS);
 
-  // This is the maximum value allowed by the API.
-  const maxResults = 10000;
-  const startIndex = 1 + (page * maxResults);
-
-  gaApi({
+  const gaApiParams = {
     // Credential details.
     clientId: process.env.GOOGLE_CLIENT_ID,
     email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -79,12 +81,16 @@ const fetchAnalyticsRows = (viewId, dimensions, page = 0) => new Promise((resolv
     // Request details.
     endDate,
     dimensions: dimensions.join(','),
-    maxResults,
+    maxResults: MAX_RESULTS,
     metrics: 'ga:sessions',
     sort: sessionIdDimension,
     startDate,
     startIndex,
-  }, (error, data) => {
+  };
+
+  debug('gaApiParams=%O', gaApiParams);
+
+  gaApi(gaApiParams, (error, data) => {
     if (error) {
       return reject(error);
     }
@@ -107,10 +113,11 @@ const getRawSessions = async () => {
     dimensionGroups.push([sessionIdDimension].concat(dimensions.slice(startIndex, endIndex)));
   }
 
+  // TODO this loops can be a lot simplier need a refactoring
   // Now we loop through and paginate the results, joining the dimensions by session ID as we go.
   const sessions = {};
   const groupCounts = {};
-  for (const viewId of process.env.GOOGLE_ANALYTICS_VIEW_IDS.split(',')) {
+  for (const viewId of process.env.GOOGLE_ANALYTICS_VIEW_IDS.split(',')) { // eslint-disable-line no-restricted-syntax
     let page = 0;
     let newRowCount;
     do {
@@ -133,15 +140,20 @@ const getRawSessions = async () => {
 
       // Move on to the next page of requests if necessary.
       page += 1;
-    } while (newRowCount > 0);
+      debug('newRowCount=%d', newRowCount);
+    } while (newRowCount >= MAX_RESULTS);
   }
 
   // Delete any partial data.
+  let deleteCount = 0;
   Object.keys(sessions).forEach((sessionId) => {
     if (groupCounts[sessionId] !== dimensionGroupCount) {
       delete sessions[sessionId];
+      deleteCount++; // eslint-disable-line no-plusplus
     }
   });
+
+  debug('%d sessions fetched (%d incomplete)', Object.keys(sessions).length, deleteCount);
 
   return sessions;
 };
