@@ -4,5 +4,6 @@ dist/
 google-analytics-credentials.json
 node_modules/
 src/user-agents.json
+src/user-agents.json.gz
 yarn-error.log
 .env
