@@ -4,7 +4,7 @@
     "mocha": true
   },
   "extends": "airbnb-base",
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "rules": {
     "no-await-in-loop": "off",
     "object-curly-newline": ["error", {

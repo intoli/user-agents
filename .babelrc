@@ -2,7 +2,7 @@
   "env": {
     "testing": {
       "presets": [
-        ["env", {
+        ["@babel/preset-env", {
           "targets": {
             "node": "current"
           }
@@ -11,7 +11,7 @@
       ]
     }
   },
-  "presets": [["env", {
+  "presets": [["@babel/preset-env", {
     "targets": {
       "browsers": [
         "last 2 chrome versions",
@@ -21,11 +21,9 @@
     }
   }]],
   "plugins": [
-      ["transform-builtin-extend", {
-            globals: ["Error"]
-      }],
-      "transform-class-properties",
-      "transform-object-rest-spread"
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-transform-classes"
   ]
 }
 
