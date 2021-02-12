@@ -38,11 +38,11 @@
     "moment": "^2.22.2",
     "power-assert": "^1.5.0",
     "random": "^2.0.12",
-    "source-map-support": "^0.5.6",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.4"
+    "source-map-support": "^0.5.6"
   },
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0"
+    "lodash.clonedeep": "^4.5.0",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
   }
 }
