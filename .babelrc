@@ -21,11 +21,11 @@
     }
   }]],
   "plugins": [
+      "@babel/plugin-proposal-object-rest-spread",
       ["transform-builtin-extend", {
             globals: ["Error"]
       }],
-      "transform-class-properties",
-      "transform-object-rest-spread"
+      "transform-class-properties"
   ]
 }
 
