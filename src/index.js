@@ -1,4 +1,4 @@
 import UserAgent from './user-agent';
 
 
-module.exports = UserAgent;
+export default UserAgent;
