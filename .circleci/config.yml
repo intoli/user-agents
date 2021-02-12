@@ -6,11 +6,14 @@ defaults: &defaults
 whitelist: &whitelist
   paths:
     - .babelrc
+    - .clabot
     - .circleci/*
     - .eslintrc
     - .git/*
+    - .github/*
     - .gitignore
     - dist/*
+    - CLA.md
     - CONTRIBUTING.md
     - LICENSE
     - README.md
@@ -181,7 +184,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: "31 18 * * *"
+          cron: "39 18 * * *"
           filters:
             branches:
               only:
