@@ -1,6 +1,6 @@
 {
   "name": "user-agents",
-  "version": "1.0.594",
+  "version": "1.0.595",
   "description": "A JavaScript library for generating random user agents. ",
   "main": "dist/index.js",
   "repository": "git@github.com:intoli/user-agents.git",
