@@ -81,7 +81,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
           name: Install dot-json package
-          command: npm install dot-json
+          command: npm install --no-save dot-json
       - run:
           name: Write version to package.json
           command: $(yarn bin)/dot-json package.json version ${CIRCLE_TAG:1}
