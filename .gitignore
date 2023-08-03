@@ -1,7 +1,9 @@
-.ga-runner-user-agents-npm-package-update_user-agents-npm-package_iam_gserviceaccount_com
+.ga-runner-*
 .tern-port
 dist/
 google-analytics-credentials.json
 node_modules/
 src/user-agents.json
+src/user-agents.json.gz
 yarn-error.log
+.env

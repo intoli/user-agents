@@ -2,6 +2,9 @@
   "name": "user-agents",
   "version": "1.0.1444",
   "description": "A JavaScript library for generating random user agents. ",
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "repository": "git@github.com:intoli/user-agents.git",
   "author": "Intoli, LLC <contact@intoli.com>",
@@ -13,7 +16,7 @@
     "lint": "eslint src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register",
-    "update-data": "babel-node src/update-data.js src/user-agents.json.gz"
+    "update-data": "babel-node --require dotenv/config src/update-data.js src/user-agents.json.gz"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.16",
@@ -28,6 +31,8 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-preset-power-assert": "^3.0.0",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-loader": "^4.0.2",
@@ -40,6 +45,7 @@
     "power-assert": "^1.6.1",
     "random": "^2.2.0",
     "source-map-support": "^0.5.19",
+    "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"
   },
