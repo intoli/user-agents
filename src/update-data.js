@@ -31,11 +31,8 @@ const SubmissionModel = dynamoose.model(
   { create: false, update: false },
 );
 
-const getUserAgentTable = async () => {
+const getUserAgentTable = async (limit = 1e4) => {
   const minimumTimestamp = Date.now() - 1 * 24 * 60 * 60 * 1000;
-  // For debugging.
-  const limit = 0;
-  const uniqueLimit = 0;
 
   // Scan through all recent profiles keeping track of the count of each.
   let lastKey = null;
@@ -66,14 +63,9 @@ const getUserAgentTable = async () => {
     });
 
     lastKey = response.lastKey;
-  } while (
-    lastKey &&
-    (!limit || totalCount < limit) &&
-    (!uniqueLimit || uniqueCount < uniqueLimit)
-  );
+  } while (lastKey);
 
-  // Add some noise to the weights.
-  let totalWeight = 0;
+  // Add some noise to the counts/weights.
   const n = () => random.normal();
   Object.entries(countsByProfile).forEach(([stringifiedProfile, count]) => {
     const unnormalizedWeight =
@@ -81,7 +73,6 @@ const getUserAgentTable = async () => {
         .fill()
         .reduce((sum) => sum + n()() ** 2, 0) / 2;
     countsByProfile[stringifiedProfile] = unnormalizedWeight;
-    totalWeight += unnormalizedWeight;
   });
 
   // Accumulate the profiles and add/remove a few properties to match the historical format.
@@ -89,7 +80,7 @@ const getUserAgentTable = async () => {
   for (let stringifiedProfile in countsByProfile) {
     if (countsByProfile.hasOwnProperty(stringifiedProfile)) {
       const profile = JSON.parse(stringifiedProfile);
-      profile.weight = countsByProfile[stringifiedProfile] / totalWeight;
+      profile.weight = countsByProfile[stringifiedProfile];
       delete profile.sessionId;
 
       // Find the device category
@@ -109,6 +100,16 @@ const getUserAgentTable = async () => {
   // Sort by descending weight.
   profiles.sort((a, b) => b.weight - a.weight);
 
+  // Apply the count limit and normalize the weights.
+  profiles.splice(limit);
+  const totalWeight = profiles.reduce(
+    (total, profile) => total + profile.weight,
+    0,
+  );
+  profiles.forEach((profile) => {
+    profile.weight /= totalWeight;
+  });
+
   return profiles;
 };
 
@@ -121,11 +122,7 @@ if (!module.parent) {
   }
   getUserAgentTable()
     .then(async (userAgents) => {
-      const stringifiedUserAgents = JSON.stringify(
-        userAgents.slice(0, 1e4),
-        null,
-        2,
-      );
+      const stringifiedUserAgents = JSON.stringify(userAgents, null, 2);
       // Compress the content if the extension ends with `.gz`.
       const content = filename.endsWith(".gz")
         ? gzipSync(stringifiedUserAgents)
