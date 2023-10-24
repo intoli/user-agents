@@ -136,18 +136,12 @@ workflows:
   build:
     jobs:
       - checkout
-      - update:
-          filters:
-            tags:
-              ignore: /v[0-9]+(\.[0-9]+)*/
-          requires:
-            - checkout
       - build:
           filters:
             tags:
               ignore: /v[0-9]+(\.[0-9]+)*/
           requires:
-            - update
+            - checkout
       - test:
           filters:
             tags:
