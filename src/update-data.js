@@ -20,13 +20,11 @@ const SubmissionModel = dynamoose.model(
         type: String,
         hashKey: true,
       },
-      headers: Object,
       ip: String,
-      origin: String,
       profile: Object,
     },
     {
-      saveUnknown: ["headers.*", "profile.**"],
+      saveUnknown: ["profile.**"],
       timestamps: { createdAt: "timestamp", updatedAt: undefined },
     },
   ),
@@ -44,8 +42,8 @@ const getUserAgentTable = async () => {
   const countsByProfile = {};
   let totalCount = 0;
   let uniqueCount = 0;
+  let ipAddressAlreadySeen = {};
   do {
-    console.log(totalCount, uniqueCount);
     const scan = SubmissionModel.scan(
       new dynamoose.Condition().filter("timestamp").gt(minimumTimestamp),
     );
@@ -54,7 +52,10 @@ const getUserAgentTable = async () => {
     }
 
     const response = await scan.exec();
-    response.forEach(({ profile }) => {
+    response.forEach(({ ip, profile }) => {
+      if (ipAddressAlreadySeen[ip]) return;
+      ipAddressAlreadySeen[ip] = true;
+
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
         countsByProfile[stringifiedProfile] = 0;
@@ -121,7 +122,7 @@ if (!module.parent) {
   getUserAgentTable()
     .then(async (userAgents) => {
       const stringifiedUserAgents = JSON.stringify(
-        userAgents.slice(0, 1e5),
+        userAgents.slice(0, 1e4),
         null,
         2,
       );
