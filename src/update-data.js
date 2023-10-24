@@ -4,6 +4,7 @@ import { gzipSync } from "zlib";
 
 import * as dynamoose from "dynamoose";
 import stableStringify from "fast-json-stable-stringify";
+import isbot from "isbot";
 import random from "random";
 import UAParser from "ua-parser-js";
 
@@ -50,9 +51,14 @@ const getUserAgentTable = async (limit = 1e4) => {
 
     const response = await scan.exec();
     response.forEach(({ ip, profile }) => {
+      // Only count one profile per IP address.
       if (ipAddressAlreadySeen[ip]) return;
       ipAddressAlreadySeen[ip] = true;
 
+      // Filter out bots like Googlebot and YandexBot.
+      if (isbot(profile.userAgent)) return;
+
+      // Track the counts for this exact profile.
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
         countsByProfile[stringifiedProfile] = 0;
