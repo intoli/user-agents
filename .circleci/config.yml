@@ -100,6 +100,9 @@ jobs:
           name: Update the user agents data
           command: |
             yarn update-data
+      - store_artifacts:
+          path: ~/user-agents/src/user-agents.json.gz
+          destination: user-agents.json.gz
       - persist_to_workspace:
           root: ~/user-agents
           <<: *whitelist
