@@ -83,7 +83,11 @@ const getUserAgentTable = async (limit = 1e4) => {
       profile.weight = countsByProfile[stringifiedProfile];
       delete profile.sessionId;
 
-      // Find the device category
+      // Deleting these because they weren't in the old format, but we should leave them in...
+      delete profile.language;
+      delete profile.oscpu;
+
+      // Find the device category.
       const parser = new UAParser(profile.userAgent);
       const device = parser.getDevice();
       // Sketchy, but I validated this on historical data and it is a 100% match.
