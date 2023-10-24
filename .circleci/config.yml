@@ -99,8 +99,10 @@ jobs:
       - run:
           name: Update the user agents data
           command: |
-            echo "$GOOGLE_ANALYTICS_CREDENTIALS" | base64 --decode > ./google-analytics-credentials.json
             yarn update-data
+      - store_artifacts:
+          path: ~/user-agents/src/user-agents.json.gz
+          destination: user-agents.json.gz
       - persist_to_workspace:
           root: ~/user-agents
           <<: *whitelist
@@ -127,7 +129,6 @@ jobs:
       - run:
           name: Bump the patch version and trigger a new release
           command: npm version patch && git push && git push --tags
-
 
 workflows:
   version: 2
