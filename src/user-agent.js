@@ -90,6 +90,7 @@ export default class UserAgent extends Function {
 
     this.randomize();
 
+    // eslint-disable-next-line no-constructor-return
     return new Proxy(this, {
       apply: () => this.random(),
       get: (target, property, receiver) => {

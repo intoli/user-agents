@@ -11,6 +11,13 @@
   "rules": {
     "import/no-import-module-exports": "off",
     "no-await-in-loop": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-prototype-builtins": "off",
     "object-curly-newline": [
       "error",
       {

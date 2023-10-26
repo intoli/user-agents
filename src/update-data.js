@@ -38,9 +38,7 @@ const getUserAgentTable = async (limit = 1e4) => {
   // Scan through all recent profiles keeping track of the count of each.
   let lastKey = null;
   const countsByProfile = {};
-  let totalCount = 0;
-  let uniqueCount = 0;
-  let ipAddressAlreadySeen = {};
+  const ipAddressAlreadySeen = {};
   do {
     const scan = SubmissionModel.scan(
       new dynamoose.Condition().filter('timestamp').gt(minimumTimestamp),
@@ -62,10 +60,8 @@ const getUserAgentTable = async (limit = 1e4) => {
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
         countsByProfile[stringifiedProfile] = 0;
-        uniqueCount += 1;
       }
       countsByProfile[stringifiedProfile] += 1;
-      totalCount += 1;
     });
 
     lastKey = response.lastKey;
@@ -83,10 +79,10 @@ const getUserAgentTable = async (limit = 1e4) => {
 
   // Accumulate the profiles and add/remove a few properties to match the historical format.
   const profiles = [];
-  for (let stringifiedProfile in countsByProfile) {
+  Object.entries(countsByProfile).forEach(([stringifiedProfile, weight]) => {
     if (countsByProfile.hasOwnProperty(stringifiedProfile)) {
       const profile = JSON.parse(stringifiedProfile);
-      profile.weight = countsByProfile[stringifiedProfile];
+      profile.weight = weight;
       delete profile.sessionId;
 
       // Deleting these because they weren't in the old format, but we should leave them in...
@@ -96,7 +92,6 @@ const getUserAgentTable = async (limit = 1e4) => {
       // Find the device category.
       const parser = new UAParser(profile.userAgent);
       const device = parser.getDevice();
-      const a = '';
       // Sketchy, but I validated this on historical data and it is a 100% match.
       profile.deviceCategory =
         { mobile: 'mobile', tablet: 'tablet', undefined: 'desktop' }[`${device.type}`] ?? 'desktop';
@@ -104,7 +99,7 @@ const getUserAgentTable = async (limit = 1e4) => {
       profiles.push(profile);
       delete countsByProfile[stringifiedProfile];
     }
-  }
+  });
 
   // Sort by descending weight.
   profiles.sort((a, b) => b.weight - a.weight);
