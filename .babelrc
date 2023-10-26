@@ -12,7 +12,7 @@
     }
   },
   "presets": [["@babel/preset-env", {
-    "modules": "commonjs",
+    "modules": false,
     "targets": {
       "browsers": [
         "last 2 chrome versions",
@@ -24,6 +24,7 @@
   "plugins": [
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-syntax-import-assertions",
       "@babel/plugin-transform-classes",
       "babel-plugin-add-module-exports"
   ]

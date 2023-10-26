@@ -9,6 +9,14 @@
   ],
   "parser": "@babel/eslint-parser",
   "rules": {
+    "import/extensions": [
+      "error",
+      "never",
+      {
+        "js": "always",
+        "json": "always"
+      }
+    ],
     "import/no-import-module-exports": "off",
     "no-await-in-loop": "off",
     "no-param-reassign": [
