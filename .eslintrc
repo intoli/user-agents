@@ -3,13 +3,20 @@
     "es6": true,
     "mocha": true
   },
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
   "parser": "@babel/eslint-parser",
   "rules": {
+    "import/no-import-module-exports": "off",
     "no-await-in-loop": "off",
-    "object-curly-newline": ["error", {
-      "consistent": true,
-      "minProperties": 5
-    }]
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true,
+        "minProperties": 5,
+      }
+    ]
   }
 }

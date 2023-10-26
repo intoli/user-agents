@@ -2,7 +2,6 @@ import cloneDeep from 'lodash.clonedeep';
 
 import userAgents from './user-agents.json';
 
-
 // Normalizes the total weight to 1 and constructs a cumulative distribution.
 const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
   const totalWeight = weightIndexPairs.reduce((sum, [weight]) => sum + weight, 0);
@@ -17,47 +16,43 @@ const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
 const defaultWeightIndexPairs = userAgents.map(({ weight }, index) => [weight, index]);
 const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(defaultWeightIndexPairs);
 
-
 // Turn the various filter formats into a single filter function that acts on raw user agents.
-const constructFilter = (filters, accessor = parentObject => parentObject) => {
+const constructFilter = (filters, accessor = (parentObject) => parentObject) => {
   let childFilters;
   if (typeof filters === 'function') {
     childFilters = [filters];
   } else if (filters instanceof RegExp) {
     childFilters = [
-      value => (
+      (value) =>
         typeof value === 'object' && value && value.userAgent
           ? filters.test(value.userAgent)
-          : filters.test(value)
-      ),
+          : filters.test(value),
     ];
   } else if (filters instanceof Array) {
-    childFilters = filters.map(childFilter => constructFilter(childFilter));
+    childFilters = filters.map((childFilter) => constructFilter(childFilter));
   } else if (typeof filters === 'object') {
-    childFilters = Object.entries(filters).map(([key, valueFilter]) => (
-      constructFilter(valueFilter, parentObject => parentObject[key])
-    ));
+    childFilters = Object.entries(filters).map(([key, valueFilter]) =>
+      constructFilter(valueFilter, (parentObject) => parentObject[key]),
+    );
   } else {
     childFilters = [
-      value => (
+      (value) =>
         typeof value === 'object' && value && value.userAgent
           ? filters === value.userAgent
-          : filters === value
-      ),
+          : filters === value,
     ];
   }
 
   return (parentObject) => {
     try {
       const value = accessor(parentObject);
-      return childFilters.every(childFilter => childFilter(value));
+      return childFilters.every((childFilter) => childFilter(value));
     } catch (error) {
       // This happens when a user-agent lacks a nested property.
       return false;
     }
   };
 };
-
 
 // Construct normalized cumulative weight index pairs given the filters.
 const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
@@ -76,7 +71,6 @@ const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
   return makeCumulativeWeightIndexPairs(weightIndexPairs);
 };
 
-
 const setCumulativeWeightIndexPairs = (userAgent, cumulativeWeightIndexPairs) => {
   Object.defineProperty(userAgent, 'cumulativeWeightIndexPairs', {
     configurable: true,
@@ -85,7 +79,6 @@ const setCumulativeWeightIndexPairs = (userAgent, cumulativeWeightIndexPairs) =>
     value: cumulativeWeightIndexPairs,
   });
 };
-
 
 export default class UserAgent extends Function {
   constructor(filters) {
@@ -100,9 +93,11 @@ export default class UserAgent extends Function {
     return new Proxy(this, {
       apply: () => this.random(),
       get: (target, property, receiver) => {
-        const dataCandidate = target.data && typeof property === 'string'
-          && Object.prototype.hasOwnProperty.call(target.data, property)
-          && Object.prototype.propertyIsEnumerable.call(target.data, property);
+        const dataCandidate =
+          target.data &&
+          typeof property === 'string' &&
+          Object.prototype.hasOwnProperty.call(target.data, property) &&
+          Object.prototype.propertyIsEnumerable.call(target.data, property);
         if (dataCandidate) {
           const value = target.data[property];
           if (value !== undefined) {
@@ -127,13 +122,9 @@ export default class UserAgent extends Function {
   // Standard Object Methods
   //
 
-  [Symbol.toPrimitive] = () => (
-    this.data.userAgent
-  );
+  [Symbol.toPrimitive] = () => this.data.userAgent;
 
-  toString = () => (
-    this.data.userAgent
-  );
+  toString = () => this.data.userAgent;
 
   random = () => {
     const userAgent = new UserAgent();
@@ -145,10 +136,11 @@ export default class UserAgent extends Function {
   randomize = () => {
     // Find a random raw random user agent.
     const randomNumber = Math.random();
-    const [, index] = this.cumulativeWeightIndexPairs
-      .find(([cumulativeWeight]) => cumulativeWeight > randomNumber);
+    const [, index] = this.cumulativeWeightIndexPairs.find(
+      ([cumulativeWeight]) => cumulativeWeight > randomNumber,
+    );
     const rawUserAgent = userAgents[index];
 
     this.data = cloneDeep(rawUserAgent);
-  }
+  };
 }

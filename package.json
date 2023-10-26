@@ -10,7 +10,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "gunzip-data": "babel-node src/gunzip-data.js src/user-agents.json.gz",
-    "lint": "eslint src/",
+    "lint": "eslint src/ && prettier --check src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register",
     "update-data": "babel-node src/update-data.js src/user-agents.json.gz"
@@ -31,6 +31,7 @@
     "dynamoose": "^3.2.1",
     "eslint": "^8.52.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-webpack-plugin": "^4.0.1",
     "fast-json-stable-stringify": "^2.1.0",
@@ -38,6 +39,7 @@
     "isbot": "^3.7.0",
     "mocha": "^10.2.0",
     "power-assert": "^1.6.1",
+    "prettier": "^3.0.3",
     "random": "^4.1.0",
     "source-map-support": "^0.5.21",
     "ua-parser-js": "^1.0.36",

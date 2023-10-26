@@ -1,20 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import fs from "fs";
-import { gzipSync } from "zlib";
+import fs from 'fs';
+import { gzipSync } from 'zlib';
 
-import * as dynamoose from "dynamoose";
-import stableStringify from "fast-json-stable-stringify";
-import isbot from "isbot";
-import random from "random";
-import UAParser from "ua-parser-js";
+import * as dynamoose from 'dynamoose';
+import stableStringify from 'fast-json-stable-stringify';
+import isbot from 'isbot';
+import random from 'random';
+import UAParser from 'ua-parser-js';
 
 const ddb = new dynamoose.aws.ddb.DynamoDB({
-  region: "us-east-2",
+  region: 'us-east-2',
 });
 dynamoose.aws.ddb.set(ddb);
 
 const SubmissionModel = dynamoose.model(
-  "userAgentsAnalyticsSubmissionTable",
+  'userAgentsAnalyticsSubmissionTable',
   new dynamoose.Schema(
     {
       id: {
@@ -25,8 +25,8 @@ const SubmissionModel = dynamoose.model(
       profile: Object,
     },
     {
-      saveUnknown: ["profile.**"],
-      timestamps: { createdAt: "timestamp", updatedAt: undefined },
+      saveUnknown: ['profile.**'],
+      timestamps: { createdAt: 'timestamp', updatedAt: undefined },
     },
   ),
   { create: false, update: false },
@@ -43,7 +43,7 @@ const getUserAgentTable = async (limit = 1e4) => {
   let ipAddressAlreadySeen = {};
   do {
     const scan = SubmissionModel.scan(
-      new dynamoose.Condition().filter("timestamp").gt(minimumTimestamp),
+      new dynamoose.Condition().filter('timestamp').gt(minimumTimestamp),
     );
     if (lastKey) {
       scan.startAt(lastKey);
@@ -96,11 +96,10 @@ const getUserAgentTable = async (limit = 1e4) => {
       // Find the device category.
       const parser = new UAParser(profile.userAgent);
       const device = parser.getDevice();
+      const a = '';
       // Sketchy, but I validated this on historical data and it is a 100% match.
       profile.deviceCategory =
-        { mobile: "mobile", tablet: "tablet", undefined: "desktop" }[
-          `${device.type}`
-        ] ?? "desktop";
+        { mobile: 'mobile', tablet: 'tablet', undefined: 'desktop' }[`${device.type}`] ?? 'desktop';
 
       profiles.push(profile);
       delete countsByProfile[stringifiedProfile];
@@ -112,10 +111,7 @@ const getUserAgentTable = async (limit = 1e4) => {
 
   // Apply the count limit and normalize the weights.
   profiles.splice(limit);
-  const totalWeight = profiles.reduce(
-    (total, profile) => total + profile.weight,
-    0,
-  );
+  const totalWeight = profiles.reduce((total, profile) => total + profile.weight, 0);
   profiles.forEach((profile) => {
     profile.weight /= totalWeight;
   });
@@ -126,15 +122,13 @@ const getUserAgentTable = async (limit = 1e4) => {
 if (!module.parent) {
   const filename = process.argv[2];
   if (!filename) {
-    throw new Error(
-      "An output filename must be passed as an argument to the command.",
-    );
+    throw new Error('An output filename must be passed as an argument to the command.');
   }
   getUserAgentTable()
     .then(async (userAgents) => {
       const stringifiedUserAgents = JSON.stringify(userAgents, null, 2);
       // Compress the content if the extension ends with `.gz`.
-      const content = filename.endsWith(".gz")
+      const content = filename.endsWith('.gz')
         ? gzipSync(stringifiedUserAgents)
         : stringifiedUserAgents;
       fs.writeFileSync(filename, content);
