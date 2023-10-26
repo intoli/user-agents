@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "repository": "git@github.com:intoli/user-agents.git",
   "author": "Intoli, LLC <contact@intoli.com>",
+  "files": ["dist/", "src/"],
   "license": "BSD-2-Clause",
   "private": false,
   "type": "module",
