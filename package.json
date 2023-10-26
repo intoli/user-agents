@@ -7,19 +7,19 @@
   "author": "Intoli, LLC <contact@intoli.com>",
   "license": "BSD-2-Clause",
   "private": false,
+  "type": "module",
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "gunzip-data": "babel-node src/gunzip-data.js src/user-agents.json.gz",
+    "gunzip-data": "node src/gunzip-data.js src/user-agents.json.gz",
     "lint": "eslint src/ && prettier --check src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register",
-    "update-data": "babel-node src/update-data.js src/user-agents.json.gz"
+    "update-data": "node src/update-data.js src/user-agents.json.gz"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
     "@babel/eslint-parser": "^7.22.15",
-    "@babel/node": "^7.22.19",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/plugin-transform-classes": "^7.22.15",

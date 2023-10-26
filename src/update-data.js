@@ -1,8 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import fs from 'fs';
+import { argv } from 'process';
+import { fileURLToPath } from 'url';
 import { gzipSync } from 'zlib';
 
-import * as dynamoose from 'dynamoose';
+import dynamoose from 'dynamoose';
 import stableStringify from 'fast-json-stable-stringify';
 import isbot from 'isbot';
 import random from 'random';
@@ -114,7 +116,7 @@ const getUserAgentTable = async (limit = 1e4) => {
   return profiles;
 };
 
-if (!module.parent) {
+if (fileURLToPath(import.meta.url) === argv[1]) {
   const filename = process.argv[2];
   if (!filename) {
     throw new Error('An output filename must be passed as an argument to the command.');

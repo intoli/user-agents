@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash.clonedeep';
 
-import userAgents from './user-agents.json';
+import userAgents from './user-agents.json' assert { type: 'json' };
 
 // Normalizes the total weight to 1 and constructs a cumulative distribution.
 const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
