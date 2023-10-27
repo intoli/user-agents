@@ -15,6 +15,7 @@ const externalJsonPlugin = (): Plugin => ({
 });
 
 export default defineConfig({
+  cjsInterop: true,
   dts: true,
   entryPoints: ['src/index.ts'],
   esbuildPlugins: [externalJsonPlugin()],
