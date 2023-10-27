@@ -7,20 +7,27 @@
             "node": "current"
           }
         }],
+        "@babel/preset-typescript",
         "power-assert"
       ]
     }
   },
-  "presets": [["@babel/preset-env", {
-    "modules": false,
-    "targets": {
-      "browsers": [
-        "last 2 chrome versions",
-        "last 2 firefox versions",
-      ],
-      "node": "6.10"
-    }
-  }]],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "last 2 chrome versions",
+            "last 2 firefox versions",
+          ],
+          "node": "6.10"
+        }
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
   "plugins": [
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread",

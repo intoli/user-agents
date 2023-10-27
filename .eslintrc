@@ -5,9 +5,11 @@
   },
   "extends": [
     "airbnb-base",
-    "prettier"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
   ],
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "import/extensions": [
       "error",

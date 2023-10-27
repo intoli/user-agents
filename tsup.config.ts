@@ -15,10 +15,12 @@ const externalJsonPlugin = (): Plugin => ({
 });
 
 export default defineConfig({
-  entryPoints: ['src/index.cjs'],
+  dts: true,
+  entryPoints: ['src/index.ts'],
   esbuildPlugins: [externalJsonPlugin()],
   format: ['cjs', 'esm'],
   minify: true,
   outDir: 'dist',
   sourcemap: true,
+  target: 'node8',
 });
