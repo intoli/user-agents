@@ -8,7 +8,9 @@
   "author": "Intoli, LLC <contact@intoli.com>",
   "files": [
     "dist/",
-    "src/"
+    "src/**/*",
+    "!src/user-agents.json",
+    "!src/user-agents.json.gz"
   ],
   "exports": {
     "import": "dist/index.js",
@@ -19,18 +21,12 @@
   "type": "module",
   "scripts": {
     "build": "tsup",
+    "postbuild": "yarn gunzip-data && cp src/user-agents.json dist/",
     "gunzip-data": "node src/gunzip-data.js src/user-agents.json.gz",
     "lint": "eslint src/ && prettier --check src/",
     "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register",
     "update-data": "node src/update-data.js src/user-agents.json.gz"
-  },
-  "tsup": {
-    "entryPoints": ["src/index.cjs"],
-    "format": ["cjs", "esm"],
-    "minify": true,
-    "outDir": "dist",
-    "sourceMap": true
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
