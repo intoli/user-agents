@@ -3,7 +3,7 @@ import { argv } from 'process';
 import { fileURLToPath } from 'url';
 import { gunzipSync } from 'zlib';
 
-const gunzipData = (inputFilename) => {
+const gunzipData = (inputFilename?: string) => {
   if (!inputFilename || !inputFilename.endsWith('.gz')) {
     throw new Error('Filename must be specified and end with `.gz` for gunzipping.');
   }

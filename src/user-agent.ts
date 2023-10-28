@@ -1,9 +1,57 @@
 import cloneDeep from 'lodash.clonedeep';
 
-import userAgents from './user-agents.json' assert { type: 'json' };
+import untypedUserAgents from './user-agents.json' assert { type: 'json' };
+
+const userAgents: UserAgentData[] = untypedUserAgents as UserAgentData[];
+
+type ValueOf<T> = T[keyof T];
+type NestedValueOf<T> = T extends object ? T[keyof T] | NestedValueOf<T[keyof T]> : T;
+
+export type Filter<T extends UserAgentData | NestedValueOf<UserAgentData> = UserAgentData> =
+  | ((parentObject: T) => boolean)
+  | RegExp
+  | Array<Filter<T>>
+  | { [key: string]: Filter<T> }
+  | string;
+
+export interface UserAgentData {
+  appName: 'Netscape';
+  connection: {
+    downlink: number;
+    effectiveType: '3g' | '4g';
+    rtt: number;
+    downlinkMax?: number | null;
+    type?: 'cellular' | 'wifi';
+  };
+  platform:
+    | 'iPad'
+    | 'iPhone'
+    | 'Linux aarch64'
+    | 'Linux armv81'
+    | 'Linux armv8l'
+    | 'Linux x86_64'
+    | 'MacIntel'
+    | 'Win32';
+  pluginsLength: number;
+  screenHeight: number;
+  screenWidth: number;
+  userAgent: string;
+  vendor: 'Apple Computer, Inc.' | 'Google Inc.' | '';
+  weight: number;
+}
+
+declare module './user-agent' {
+  export interface UserAgent extends Readonly<UserAgentData> {
+    readonly cumulativeWeightIndexPairs: Array<[number, number]>;
+    readonly data: UserAgentData;
+    (): UserAgent;
+  }
+}
 
 // Normalizes the total weight to 1 and constructs a cumulative distribution.
-const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
+const makeCumulativeWeightIndexPairs = (
+  weightIndexPairs: Array<[number, number]>,
+): Array<[number, number]> => {
   const totalWeight = weightIndexPairs.reduce((sum, [weight]) => sum + weight, 0);
   let sum = 0;
   return weightIndexPairs.map(([weight, index]) => {
@@ -13,37 +61,46 @@ const makeCumulativeWeightIndexPairs = (weightIndexPairs) => {
 };
 
 // Precompute these so that we can quickly generate unfiltered user agents.
-const defaultWeightIndexPairs = userAgents.map(({ weight }, index) => [weight, index]);
+const defaultWeightIndexPairs: Array<[number, number]> = userAgents.map(({ weight }, index) => [
+  weight,
+  index,
+]);
 const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(defaultWeightIndexPairs);
 
 // Turn the various filter formats into a single filter function that acts on raw user agents.
-const constructFilter = (filters, accessor = (parentObject) => parentObject) => {
-  let childFilters;
+const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>(
+  filters: Filter<T>,
+  accessor: (parentObject: T) => T | NestedValueOf<T> = (parentObject: T): T => parentObject,
+): ((profile: UserAgentData) => boolean) => {
+  let childFilters: Function[];
   if (typeof filters === 'function') {
     childFilters = [filters];
   } else if (filters instanceof RegExp) {
     childFilters = [
-      (value) =>
-        typeof value === 'object' && value && value.userAgent
+      (value: UserAgentData | ValueOf<UserAgentData>) =>
+        typeof value === 'object' && value && 'userAgent' in value && value.userAgent
           ? filters.test(value.userAgent)
-          : filters.test(value),
+          : filters.test(value as string),
     ];
   } else if (filters instanceof Array) {
     childFilters = filters.map((childFilter) => constructFilter(childFilter));
   } else if (typeof filters === 'object') {
     childFilters = Object.entries(filters).map(([key, valueFilter]) =>
-      constructFilter(valueFilter, (parentObject) => parentObject[key]),
+      constructFilter(
+        valueFilter as Filter<T>,
+        (parentObject: T): T | NestedValueOf<T> => (parentObject as any)[key] as NestedValueOf<T>,
+      ),
     );
   } else {
     childFilters = [
-      (value) =>
-        typeof value === 'object' && value && value.userAgent
+      (value: UserAgentData | ValueOf<UserAgentData>) =>
+        typeof value === 'object' && value && 'userAgent' in value && value.userAgent
           ? filters === value.userAgent
           : filters === value,
     ];
   }
 
-  return (parentObject) => {
+  return (parentObject: any) => {
     try {
       const value = accessor(parentObject);
       return childFilters.every((childFilter) => childFilter(value));
@@ -55,14 +112,16 @@ const constructFilter = (filters, accessor = (parentObject) => parentObject) => 
 };
 
 // Construct normalized cumulative weight index pairs given the filters.
-const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
+const constructCumulativeWeightIndexPairsFromFilters = (
+  filters?: Filter<UserAgentData>,
+): Array<[number, number]> => {
   if (!filters) {
     return defaultCumulativeWeightIndexPairs;
   }
 
   const filter = constructFilter(filters);
 
-  const weightIndexPairs = [];
+  const weightIndexPairs: Array<[number, number]> = [];
   userAgents.forEach((rawUserAgent, index) => {
     if (filter(rawUserAgent)) {
       weightIndexPairs.push([rawUserAgent.weight, index]);
@@ -71,7 +130,10 @@ const constructCumulativeWeightIndexPairsFromFilters = (filters) => {
   return makeCumulativeWeightIndexPairs(weightIndexPairs);
 };
 
-const setCumulativeWeightIndexPairs = (userAgent, cumulativeWeightIndexPairs) => {
+const setCumulativeWeightIndexPairs = (
+  userAgent: UserAgent,
+  cumulativeWeightIndexPairs: Array<[number, number]>,
+) => {
   Object.defineProperty(userAgent, 'cumulativeWeightIndexPairs', {
     configurable: true,
     enumerable: false,
@@ -80,8 +142,8 @@ const setCumulativeWeightIndexPairs = (userAgent, cumulativeWeightIndexPairs) =>
   });
 };
 
-export default class UserAgent extends Function {
-  constructor(filters) {
+export class UserAgent extends Function {
+  constructor(filters?: Filter) {
     super();
     setCumulativeWeightIndexPairs(this, constructCumulativeWeightIndexPairsFromFilters(filters));
     if (this.cumulativeWeightIndexPairs.length === 0) {
@@ -100,7 +162,7 @@ export default class UserAgent extends Function {
           Object.prototype.hasOwnProperty.call(target.data, property) &&
           Object.prototype.propertyIsEnumerable.call(target.data, property);
         if (dataCandidate) {
-          const value = target.data[property];
+          const value = target.data[property as keyof UserAgentData];
           if (value !== undefined) {
             return value;
           }
@@ -111,7 +173,7 @@ export default class UserAgent extends Function {
     });
   }
 
-  static random = (filters) => {
+  static random = (filters: Filter) => {
     try {
       return new UserAgent(filters);
     } catch (error) {
@@ -123,25 +185,29 @@ export default class UserAgent extends Function {
   // Standard Object Methods
   //
 
-  [Symbol.toPrimitive] = () => this.data.userAgent;
+  [Symbol.toPrimitive] = (): string => this.data.userAgent;
 
-  toString = () => this.data.userAgent;
+  toString = (): string => this.data.userAgent;
 
-  random = () => {
+  random = (): UserAgent => {
     const userAgent = new UserAgent();
     setCumulativeWeightIndexPairs(userAgent, this.cumulativeWeightIndexPairs);
     userAgent.randomize();
     return userAgent;
   };
 
-  randomize = () => {
+  randomize = (): void => {
     // Find a random raw random user agent.
     const randomNumber = Math.random();
-    const [, index] = this.cumulativeWeightIndexPairs.find(
-      ([cumulativeWeight]) => cumulativeWeight > randomNumber,
-    );
+    const [_, index] =
+      this.cumulativeWeightIndexPairs.find(
+        ([cumulativeWeight]) => cumulativeWeight > randomNumber,
+      ) ?? [];
+    if (index == null) {
+      throw new Error('Error finding a random user agent.');
+    }
     const rawUserAgent = userAgents[index];
 
-    this.data = cloneDeep(rawUserAgent);
+    (this as any).data = cloneDeep(rawUserAgent);
   };
 }
