@@ -5,17 +5,26 @@ import { fileURLToPath } from 'url';
 import { gzipSync } from 'zlib';
 
 import dynamoose from 'dynamoose';
+import { Item } from 'dynamoose/dist/Item';
 import stableStringify from 'fast-json-stable-stringify';
 import isbot from 'isbot';
 import random from 'random';
 import UAParser from 'ua-parser-js';
+
+import { UserAgentData } from './user-agent';
 
 const ddb = new dynamoose.aws.ddb.DynamoDB({
   region: 'us-east-2',
 });
 dynamoose.aws.ddb.set(ddb);
 
-const SubmissionModel = dynamoose.model(
+const SubmissionModel = dynamoose.model<
+  {
+    ip: string;
+    profile: { [key: string]: any };
+  } & UserAgentData &
+    Item
+>(
   'userAgentsAnalyticsSubmissionTable',
   new dynamoose.Schema(
     {
@@ -39,8 +48,8 @@ const getUserAgentTable = async (limit = 1e4) => {
 
   // Scan through all recent profiles keeping track of the count of each.
   let lastKey = null;
-  const countsByProfile = {};
-  const ipAddressAlreadySeen = {};
+  const countsByProfile: { [stringifiedProfile: string]: number } = {};
+  const ipAddressAlreadySeen: { [ipAddress: string]: boolean } = {};
   do {
     const scan = SubmissionModel.scan(
       new dynamoose.Condition().filter('timestamp').gt(minimumTimestamp),
@@ -74,13 +83,13 @@ const getUserAgentTable = async (limit = 1e4) => {
   Object.entries(countsByProfile).forEach(([stringifiedProfile, count]) => {
     const unnormalizedWeight =
       Array(2 * count)
-        .fill()
+        .fill(undefined)
         .reduce((sum) => sum + n()() ** 2, 0) / 2;
     countsByProfile[stringifiedProfile] = unnormalizedWeight;
   });
 
   // Accumulate the profiles and add/remove a few properties to match the historical format.
-  const profiles = [];
+  const profiles: UserAgentData[] = [];
   Object.entries(countsByProfile).forEach(([stringifiedProfile, weight]) => {
     if (countsByProfile.hasOwnProperty(stringifiedProfile)) {
       const profile = JSON.parse(stringifiedProfile);
