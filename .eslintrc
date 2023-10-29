@@ -20,6 +20,7 @@
       }
     ],
     "import/no-import-module-exports": "off",
+    "import/no-unresolved": "off",
     "no-await-in-loop": "off",
     "no-param-reassign": [
       "error",
@@ -28,6 +29,8 @@
       }
     ],
     "no-prototype-builtins": "off",
+    "no-use-before-define": "off",
+    '@typescript-eslint/no-use-before-define': ['error', { "typedefs": false }],
     "object-curly-newline": [
       "error",
       {

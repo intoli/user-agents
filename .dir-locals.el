@@ -3,4 +3,6 @@
  ; Run `flycheck-verify-setup` to see the current status.
  (js-mode . ((flycheck-checker . javascript-eslint)
                  (flycheck-disabled-checkers . (lsp javascript-jshint javascript-standard))))
+ (typescript-mode . ((flycheck-checker . javascript-eslint)
+                 (flycheck-disabled-checkers . (lsp javascript-jshint javascript-standard))))
 )

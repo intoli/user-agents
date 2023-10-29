@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import { gzipSync } from 'zlib';
 
 import dynamoose from 'dynamoose';
-import { Item } from 'dynamoose/dist/Item';
+import { Item } from 'dynamoose/dist/Item.js';
 import stableStringify from 'fast-json-stable-stringify';
 import isbot from 'isbot';
 import random from 'random';
@@ -21,7 +21,7 @@ dynamoose.aws.ddb.set(ddb);
 const SubmissionModel = dynamoose.model<
   {
     ip: string;
-    profile: { [key: string]: any };
+    profile: { [key: string]: unknown };
   } & UserAgentData &
     Item
 >(

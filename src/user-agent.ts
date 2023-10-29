@@ -71,8 +71,8 @@ const defaultCumulativeWeightIndexPairs = makeCumulativeWeightIndexPairs(default
 const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>(
   filters: Filter<T>,
   accessor: (parentObject: T) => T | NestedValueOf<T> = (parentObject: T): T => parentObject,
-): ((profile: UserAgentData) => boolean) => {
-  let childFilters: Function[];
+): ((profile: T) => boolean) => {
+  let childFilters: Array<(parentObject: T) => boolean>;
   if (typeof filters === 'function') {
     childFilters = [filters];
   } else if (filters instanceof RegExp) {
@@ -88,7 +88,8 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
     childFilters = Object.entries(filters).map(([key, valueFilter]) =>
       constructFilter(
         valueFilter as Filter<T>,
-        (parentObject: T): T | NestedValueOf<T> => (parentObject as any)[key] as NestedValueOf<T>,
+        (parentObject: T): T | NestedValueOf<T> =>
+          (parentObject as { [key: string]: NestedValueOf<T> })[key] as NestedValueOf<T>,
       ),
     );
   } else {
@@ -100,7 +101,7 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
     ];
   }
 
-  return (parentObject: any) => {
+  return (parentObject: T) => {
     try {
       const value = accessor(parentObject);
       return childFilters.every((childFilter) => childFilter(value));
@@ -199,7 +200,7 @@ export class UserAgent extends Function {
   randomize = (): void => {
     // Find a random raw random user agent.
     const randomNumber = Math.random();
-    const [_, index] =
+    const [, index] =
       this.cumulativeWeightIndexPairs.find(
         ([cumulativeWeight]) => cumulativeWeight > randomNumber,
       ) ?? [];
@@ -208,6 +209,6 @@ export class UserAgent extends Function {
     }
     const rawUserAgent = userAgents[index];
 
-    (this as any).data = cloneDeep(rawUserAgent);
+    (this as { data: UserAgentData }).data = cloneDeep(rawUserAgent);
   };
 }
