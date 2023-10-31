@@ -154,13 +154,13 @@ workflows:
       - checkout:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v1(\.[0-9]+)*/
             branches:
               ignore: /.*/
       - build:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v1(\.[0-9]+)*/
             branches:
               ignore: /.*/
           requires:
@@ -168,7 +168,7 @@ workflows:
       - test:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v1(\.[0-9]+)*/
             branches:
               ignore: /.*/
           requires:
@@ -176,7 +176,7 @@ workflows:
       - deploy:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v1(\.[0-9]+)*/
             branches:
               ignore: /.*/
           requires:
@@ -189,7 +189,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - v1-release
 
     jobs:
       - checkout
