@@ -4,7 +4,6 @@ import untypedUserAgents from './user-agents.json' assert { type: 'json' };
 
 const userAgents: UserAgentData[] = untypedUserAgents as UserAgentData[];
 
-type ValueOf<T> = T[keyof T];
 type NestedValueOf<T> = T extends object ? T[keyof T] | NestedValueOf<T[keyof T]> : T;
 
 export type Filter<T extends UserAgentData | NestedValueOf<UserAgentData> = UserAgentData> =
@@ -77,7 +76,7 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
     childFilters = [filters];
   } else if (filters instanceof RegExp) {
     childFilters = [
-      (value: UserAgentData | ValueOf<UserAgentData>) =>
+      (value: T | NestedValueOf<T>) =>
         typeof value === 'object' && value && 'userAgent' in value && value.userAgent
           ? filters.test(value.userAgent)
           : filters.test(value as string),
@@ -89,12 +88,12 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
       constructFilter(
         valueFilter as Filter<T>,
         (parentObject: T): T | NestedValueOf<T> =>
-          (parentObject as { [key: string]: NestedValueOf<T> })[key] as NestedValueOf<T>,
+          (parentObject as unknown as { [key: string]: NestedValueOf<T> })[key] as NestedValueOf<T>,
       ),
     );
   } else {
     childFilters = [
-      (value: UserAgentData | ValueOf<UserAgentData>) =>
+      (value: T | NestedValueOf<T>) =>
         typeof value === 'object' && value && 'userAgent' in value && value.userAgent
           ? filters === value.userAgent
           : filters === value,
@@ -104,7 +103,7 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
   return (parentObject: T) => {
     try {
       const value = accessor(parentObject);
-      return childFilters.every((childFilter) => childFilter(value));
+      return childFilters.every((childFilter) => childFilter(value as T));
     } catch (error) {
       // This happens when a user-agent lacks a nested property.
       return false;
