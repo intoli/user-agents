@@ -50,7 +50,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
-    "eslint-webpack-plugin": "^4.0.1",
     "fast-json-stable-stringify": "^2.1.0",
     "imports-loader": "^4.0.1",
     "isbot": "^3.7.0",
