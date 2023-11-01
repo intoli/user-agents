@@ -108,7 +108,18 @@ jobs:
           command: $(yarn bin)/dot-json package.json version ${CIRCLE_TAG:1}
       - run:
           name: Publish to NPM
-          command: npm publish --access=public
+          command: |
+            # Find the current package version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
+            CURRENT_VERSION=$(jq -r .version package.json)
+            echo "Current Version: ${CURRENT_VERSION}"
+
+            if [[ $CURRENT_VERSION == *-* ]]; then
+              # A hyphen means we're a prelease and want to tag this as `next`.
+              npm publish --access=public --tag next
+            else
+              # Otherwise, this is a normal release and we want to tag this as `latest`.
+              npm publish --access=public
+            fi
 
   update:
     <<: *defaults
@@ -241,7 +252,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: '30 06 * * *'
+          cron: '12 15 * * *'
           filters:
             branches:
               only:
