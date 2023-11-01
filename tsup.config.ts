@@ -26,5 +26,5 @@ export default defineConfig({
   //   * https://github.com/egoist/tsup/issues/992#issuecomment-1763540165
   splitting: true,
   sourcemap: true,
-  target: 'node8',
+  target: 'esnext',
 });

@@ -1,9 +1,9 @@
 {
   "name": "user-agents",
-  "version": "1.1.9",
+  "version": "2.0.0-alpha.5",
   "description": "A JavaScript library for generating random user agents. ",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "repository": "git@github.com:intoli/user-agents.git",
   "author": "Intoli, LLC <contact@intoli.com>",
   "files": [
@@ -13,8 +13,8 @@
     "!src/user-agents.json.gz"
   ],
   "exports": {
-    "import": "dist/index.js",
-    "require": "dist/index.cjs"
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
   },
   "license": "BSD-2-Clause",
   "private": false,
