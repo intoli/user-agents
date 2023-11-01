@@ -148,8 +148,20 @@ jobs:
             # but we want to publish anyway to stay on a regular schedule.
             git commit -m 'Regularly scheduled user agent data update.' || true
       - run:
-          name: Bump the patch version and trigger a new release
-          command: npm version patch && git push && git push --tags
+          name: Bump the patch (or prelease) version and trigger a new release
+          command: |
+            # Version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
+            CURRENT_VERSION=$(npm list --depth=0 user-agents | grep user-agents | awk -F'[@ ]' '{print $2}')
+            if [[ $CURRENT_VERSION == *-* ]]; then
+              # A hyphen means we're a prelease and want to bump the prerelease version.
+              npm version prerelease
+            else
+              # Otherwise, this is a normal release and we bump the patch version.
+              npm version patch
+            fi
+            npm version patch
+            git push
+            git push --tags
 
 workflows:
   version: 2
