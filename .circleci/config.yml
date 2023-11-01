@@ -150,6 +150,7 @@ jobs:
       - run:
           name: Bump the patch (or prelease) version and trigger a new release
           command: |
+            echo "Attempting to bump version and trigger a new release..."
             # Version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
             CURRENT_VERSION=$(npm list --depth=0 user-agents | grep user-agents | awk -F'[@ ]' '{print $2}')
             echo "Current Version: ${CURRENT_VERSION}"
@@ -238,7 +239,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: '52 12 * * *'
+          cron: '06 13 * * *'
           filters:
             branches:
               only:
