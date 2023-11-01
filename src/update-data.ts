@@ -96,10 +96,6 @@ const getUserAgentTable = async (limit = 1e4) => {
       profile.weight = weight;
       delete profile.sessionId;
 
-      // Deleting these because they weren't in the old format, but we should leave them in...
-      delete profile.language;
-      delete profile.oscpu;
-
       // Find the device category.
       const parser = new UAParser(profile.userAgent);
       const device = parser.getDevice();
