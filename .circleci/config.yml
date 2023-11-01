@@ -153,16 +153,7 @@ jobs:
             echo "Attempting to bump version and trigger a new release..."
 
             # Find the current package version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
-            NPM_LIST=$(npm list --depth=0 user-agents)
-            echo "NPM List Result: ${NPM_LIST}"
-
-            echo "Exiting gracefully.."
-            exit 0
-
-            GREP_RESULT=$(echo "${NPM_LIST}" | grep user-agents)
-            echo "Grep Result: ${GREP_RESULT}"
-
-            CURRENT_VERSION=$(echo "${GREP_RESULT}" | awk -F'[@ ]' '{print $2}')
+            CURRENT_VERSION=$(jq -r .version package.json)
             echo "Current Version: ${CURRENT_VERSION}"
 
             if [[ $CURRENT_VERSION == *-* ]]; then
@@ -250,7 +241,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: '25 14 * * *'
+          cron: '53 14 * * *'
           filters:
             branches:
               only:
