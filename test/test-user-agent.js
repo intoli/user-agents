@@ -1,12 +1,10 @@
 import assert from 'assert';
 
-import UserAgent from '../src/user-agent';
-
+import { UserAgent } from '../src/user-agent.ts';
 
 // The randomization tests will be repeated once for each element in the range.
 // We should add a more sophisticated RNG with seeding support for additional testing.
 const range = Array(1000).fill();
-
 
 describe('UserAgent', () => {
   describe('filtering', () => {
@@ -18,7 +16,7 @@ describe('UserAgent', () => {
     });
 
     it('support nested object properties', () => {
-      const userAgent = new UserAgent({ connection: { effectiveType: '4g' }});
+      const userAgent = new UserAgent({ connection: { effectiveType: '4g' } });
       range.forEach(() => {
         assert(userAgent().connection.effectiveType === '4g');
       });
@@ -107,7 +105,10 @@ describe('UserAgent', () => {
     it('have a shorter length when a filter is applied', () => {
       const userAgent = new UserAgent();
       const filteredUserAgent = new UserAgent({ deviceCategory: 'mobile' });
-      assert(userAgent.cumulativeWeightIndexPairs.length > filteredUserAgent.cumulativeWeightIndexPairs.length);
+      assert(
+        userAgent.cumulativeWeightIndexPairs.length >
+          filteredUserAgent.cumulativeWeightIndexPairs.length,
+      );
     });
   });
 });

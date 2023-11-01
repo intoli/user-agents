@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "module": "esnext",
+    "target": "es2016",
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": [
+    "**/*.cts",
+    "**/*.mts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "dist/*"
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

@@ -1,27 +1,33 @@
 defaults: &defaults
   working_directory: ~/user-agents
   docker:
-    - image: circleci/node:fermium
+    - image: cimg/node:21.1
 
 whitelist: &whitelist
   paths:
     - .babelrc
-    - .clabot
     - .circleci/*
+    - .clabot
+    - .dir-locals.el
     - .eslintrc
     - .git/*
     - .github/*
     - .gitignore
-    - dist/*
+    - .mocharc.cjs
+    - .prettierignore
+    - .prettierrc
+    - .tool-versions
     - CLA.md
     - CONTRIBUTING.md
     - LICENSE
     - README.md
+    - dist/*
     - media/*
     - package.json
     - src/*
     - test/*
-    - webpack.config.js
+    - tsconfig.json
+    - tsup.config.ts
     - yarn.lock
 
 version: 2
@@ -31,14 +37,29 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn install
       - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
+      - persist_to_workspace:
+          root: ~/user-agents
+          <<: *whitelist
+
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - restore_cache:
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
+      - run:
+          name: Lint
+          command: |
+            yarn lint
       - persist_to_workspace:
           root: ~/user-agents
           <<: *whitelist
@@ -49,7 +70,7 @@ jobs:
       - attach_workspace:
           at: ~/user-agents
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Build
           command: |
@@ -65,7 +86,7 @@ jobs:
       - attach_workspace:
           at: ~/user-agents
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Test
           command: |
@@ -95,7 +116,7 @@ jobs:
       - attach_workspace:
           at: ~/user-agents
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Update the user agents data
           command: |
@@ -136,6 +157,12 @@ workflows:
   build:
     jobs:
       - checkout
+      - lint:
+          filters:
+            tags:
+              ignore: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - checkout
       - build:
           filters:
             tags:
@@ -157,7 +184,7 @@ workflows:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
-      - build:
+      - lint:
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
@@ -165,6 +192,14 @@ workflows:
               ignore: /.*/
           requires:
             - checkout
+      - build:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - lint
       - test:
           filters:
             tags:
@@ -185,7 +220,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: "00 06 * * *"
+          cron: '00 06 * * *'
           filters:
             branches:
               only:

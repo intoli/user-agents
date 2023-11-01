@@ -3,13 +3,41 @@
     "es6": true,
     "mocha": true
   },
-  "extends": "airbnb-base",
-  "parser": "@babel/eslint-parser",
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
+    "import/extensions": [
+      "error",
+      "never",
+      {
+        "js": "always",
+        "json": "always"
+      }
+    ],
+    "import/no-import-module-exports": "off",
+    "import/no-unresolved": "off",
     "no-await-in-loop": "off",
-    "object-curly-newline": ["error", {
-      "consistent": true,
-      "minProperties": 5
-    }]
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-prototype-builtins": "off",
+    "no-use-before-define": "off",
+    '@typescript-eslint/no-use-before-define': ['error', { "typedefs": false }],
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true,
+        "minProperties": 5,
+      }
+    ]
   }
 }
