@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/user-agents
   docker:
-    - image: circleci/node:fermium
+    - image: cimg/node:21.1
 
 whitelist: &whitelist
   paths:
