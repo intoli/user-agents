@@ -22,6 +22,9 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   minify: true,
   outDir: 'dist',
+  // CJS interop is broken without splitting, see:
+  //   * https://github.com/egoist/tsup/issues/992#issuecomment-1763540165
+  splitting: true,
   sourcemap: true,
   target: 'node8',
 });
