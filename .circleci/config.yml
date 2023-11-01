@@ -160,7 +160,7 @@ jobs:
               npm version patch
             fi
 
-            git push
+            git push --set-upstream origin main
             git push --tags
 
 workflows:

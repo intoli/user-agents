@@ -24,7 +24,6 @@
     "postbuild": "yarn gunzip-data && cp src/user-agents.json dist/",
     "gunzip-data": "node --loader ts-node/esm src/gunzip-data.ts src/user-agents.json.gz",
     "lint": "eslint src/ && prettier --check src/",
-    "postversion": "git push && git push --tags",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register --extensions '.ts, .js'",
     "update-data": "node --loader ts-node/esm src/update-data.ts src/user-agents.json.gz"
   },
