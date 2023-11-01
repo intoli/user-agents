@@ -159,7 +159,7 @@ jobs:
               # Otherwise, this is a normal release and we bump the patch version.
               npm version patch
             fi
-            npm version patch
+
             git push
             git push --tags
 
