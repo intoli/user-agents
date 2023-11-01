@@ -6,22 +6,28 @@ defaults: &defaults
 whitelist: &whitelist
   paths:
     - .babelrc
-    - .clabot
     - .circleci/*
+    - .clabot
+    - .dir-locals.el
     - .eslintrc
     - .git/*
     - .github/*
     - .gitignore
-    - dist/*
+    - .mocharc.cjs
+    - .prettierignore
+    - .prettierrc
+    - .tool-versions
     - CLA.md
     - CONTRIBUTING.md
     - LICENSE
     - README.md
+    - dist/*
     - media/*
     - package.json
     - src/*
     - test/*
-    - webpack.config.js
+    - tsconfig.json
+    - tsup.config.ts
     - yarn.lock
 
 version: 2
