@@ -188,7 +188,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: "00 06 * * *"
+          cron: "22 12 * * *"
           filters:
             branches:
               only:
