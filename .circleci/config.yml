@@ -154,21 +154,6 @@ jobs:
             # Version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
             CURRENT_VERSION=$(npm list --depth=0 user-agents | grep user-agents | awk -F'[@ ]' '{print $2}')
             echo "Current Version: ${CURRENT_VERSION}"
-            if [[ $CURRENT_VERSION == *-* ]]; then
-              # A hyphen means we're a prelease and want to bump the prerelease version.
-              echo "Prerelease detected, bumping prerelease version."
-              npm version prerelease
-            else
-              # Otherwise, this is a normal release and we bump the patch version.
-              echo "Prerelease not detected, bumping patch version."
-              npm version patch
-            fi
-
-            echo "Pushing changes to the main branch."
-            git push --set-upstream origin main
-            echo "Pushing tags."
-            git push --tags
-            echo "Success!"
 
 workflows:
   version: 2
@@ -239,7 +224,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: '06 13 * * *'
+          cron: '16 13 * * *'
           filters:
             branches:
               only:
