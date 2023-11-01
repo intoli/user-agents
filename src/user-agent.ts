@@ -71,6 +71,8 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
   filters: Filter<T>,
   accessor: (parentObject: T) => T | NestedValueOf<T> = (parentObject: T): T => parentObject,
 ): ((profile: T) => boolean) => {
+  // WARNING: This type and a lot of the types in here are wrong, but I can't get TypeScript to
+  // resolve things correctly so this will have to do for now.
   let childFilters: Array<(parentObject: T) => boolean>;
   if (typeof filters === 'function') {
     childFilters = [filters];
