@@ -22,6 +22,8 @@ export interface UserAgentData {
     downlinkMax?: number | null;
     type?: 'cellular' | 'wifi';
   };
+  language?: string | null;
+  oscpu?: string | null;
   platform:
     | 'iPad'
     | 'iPhone'
