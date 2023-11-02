@@ -252,7 +252,7 @@ workflows:
   scheduled-release:
     triggers:
       - schedule:
-          cron: '12 15 * * *'
+          cron: '30 06 * * *'
           filters:
             branches:
               only:
