@@ -1,6 +1,6 @@
 {
   "name": "user-agents",
-  "version": "2.0.0-alpha.168",
+  "version": "2.0.0-alpha.169",
   "description": "A JavaScript library for generating random user agents. ",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
