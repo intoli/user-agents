@@ -130,6 +130,7 @@ jobs:
           key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Update the user agents data
+          no_output_timeout: 30m
           command: |
             yarn update-data
       - store_artifacts:
