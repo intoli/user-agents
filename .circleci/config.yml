@@ -94,12 +94,11 @@ jobs:
 
   deploy:
     <<: *defaults
+    docker:
+      - image: cimg/node:22.22
     steps:
       - attach_workspace:
           at: ~/user-agents
-      - run:
-          name: Write NPM Token to ~/.npmrc
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
           name: Install dot-json package
           command: npm install --no-save dot-json
@@ -109,6 +108,9 @@ jobs:
       - run:
           name: Publish to NPM
           command: |
+            # Use OIDC trusted publishing instead of a static NPM token.
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+
             # Find the current package version, for example: `v2.0.0-alpha.0` or `v2.0.0`.
             CURRENT_VERSION=$(jq -r .version package.json)
             echo "Current Version: ${CURRENT_VERSION}"
