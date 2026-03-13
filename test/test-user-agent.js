@@ -172,6 +172,22 @@ describe('UserAgent', () => {
       assert(typeof userAgent.randomize === 'function');
     });
 
+    it('support Object.keys() enumeration', () => {
+      const userAgent = new UserAgent();
+      const keys = Object.keys(userAgent);
+      assert(keys.includes('data'));
+      assert(keys.includes('toString'));
+      assert(keys.includes('random'));
+      assert(keys.includes('randomize'));
+    });
+
+    it('support spread operator', () => {
+      const userAgent = new UserAgent();
+      const spread = { ...userAgent };
+      assert(typeof spread.data === 'object');
+      assert(typeof spread.data.userAgent === 'string');
+    });
+
     it('return new data after calling randomize()', () => {
       const userAgent = new UserAgent();
       // Run many times to ensure at least one gives different data.

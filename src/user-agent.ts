@@ -197,6 +197,8 @@ export class UserAgent {
       getOwnPropertyDescriptor: (_target, property) =>
         Reflect.getOwnPropertyDescriptor(this, property),
       has: (_target, property) => Reflect.has(this, property),
+      deleteProperty: (_target, property) => Reflect.deleteProperty(this, property),
+      ownKeys: () => Reflect.ownKeys(this),
       getPrototypeOf: () => UserAgent.prototype,
     });
     userAgentInstances.add(proxy);
