@@ -9,7 +9,7 @@ whitelist: &whitelist
     - .circleci/*
     - .clabot
     - .dir-locals.el
-    - .eslintrc
+    - eslint.config.js
     - .git/*
     - .github/*
     - .gitignore
@@ -40,7 +40,7 @@ jobs:
           key: dependency-cache-v2-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: dependency-cache-v2-{{ checksum "yarn.lock" }}
           paths:
@@ -94,7 +94,7 @@ jobs:
           key: dependency-cache-v2-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: dependency-cache-v2-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
           paths:
