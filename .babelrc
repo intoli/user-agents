@@ -31,7 +31,7 @@
   "plugins": [
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread",
-      "@babel/plugin-syntax-import-assertions",
+      "@babel/plugin-syntax-import-attributes",
       "@babel/plugin-transform-classes",
       "babel-plugin-add-module-exports"
   ]

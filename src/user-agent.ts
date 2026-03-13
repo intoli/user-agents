@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash.clonedeep';
 
-import untypedUserAgents from './user-agents.json' assert { type: 'json' };
+import untypedUserAgents from './user-agents.json' with { type: 'json' };
 
 const userAgents: UserAgentData[] = untypedUserAgents as UserAgentData[];
 
