@@ -8,6 +8,12 @@
   "engines": {
     "node": ">=18"
   },
+  "files": [
+    "dist/",
+    "src/**/*",
+    "!src/user-agents.json",
+    "!src/user-agents.json.gz"
+  ],
   "license": "BSD-2-Clause",
   "private": false,
   "scripts": {
