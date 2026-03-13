@@ -5,6 +5,9 @@
   "main": "dist/index.js",
   "repository": "git@github.com:intoli/user-agents.git",
   "author": "Intoli, LLC <contact@intoli.com>",
+  "engines": {
+    "node": ">=18"
+  },
   "license": "BSD-2-Clause",
   "private": false,
   "scripts": {
@@ -43,7 +46,5 @@
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"
   },
-  "dependencies": {
-    "lodash.clonedeep": "^4.5.0"
-  }
+  "dependencies": {}
 }
