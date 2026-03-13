@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/user-agents
   docker:
-    - image: cimg/node:22
+    - image: cimg/node:22.22
 
 whitelist: &whitelist
   paths:
@@ -86,7 +86,7 @@ jobs:
         type: string
     working_directory: ~/user-agents
     docker:
-      - image: cimg/node:<< parameters.node-version >>
+      - image: node:<< parameters.node-version >>
     steps:
       - attach_workspace:
           at: ~/user-agents
