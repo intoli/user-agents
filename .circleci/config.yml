@@ -54,7 +54,7 @@ jobs:
           name: Build
           command: |
             yarn gunzip-data
-            yarn build
+            NODE_OPTIONS=--openssl-legacy-provider yarn build
       - persist_to_workspace:
           root: ~/user-agents
           <<: *whitelist
