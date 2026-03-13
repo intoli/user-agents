@@ -13,32 +13,30 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "gunzip-data": "babel-node src/gunzip-data.js src/user-agents.json.gz",
-    "lint": "eslint src/",
+    "lint": "eslint src/ test/",
     "test": "NODE_ENV=testing mocha --exit --require @babel/register",
     "update-data": "babel-node src/update-data.js src/user-agents.json.gz"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.16",
     "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
     "@babel/node": "^7.12.16",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.13",
     "@babel/plugin-transform-classes": "^7.12.13",
     "@babel/preset-env": "^7.12.16",
     "@babel/register": "^7.12.13",
+    "@eslint/js": "^10.0.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-preset-power-assert": "^3.0.0",
     "dynamoose": "^3.2.1",
-    "eslint": "^7.19.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^9",
     "fast-json-stable-stringify": "^2.1.0",
+    "globals": "^17.4.0",
     "imports-loader": "^2.0.0",
     "isbot": "^3.7.0",
-    "mocha": "^8.3.0",
+    "mocha": "^11",
     "power-assert": "^1.6.1",
     "random": "^2.2.0",
     "source-map-support": "^0.5.19",
@@ -46,5 +44,9 @@
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "diff": "^8.0.3",
+    "serialize-javascript": "^7.0.3"
+  }
 }

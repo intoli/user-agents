@@ -23,12 +23,6 @@ module.exports = {
       {
         test: /\.js$/,
         include: path.resolve(__dirname, 'src'),
-        enforce: 'pre',
-        loader: 'eslint-loader',
-      },
-      {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
         loader: 'babel-loader',
       },
       {

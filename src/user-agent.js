@@ -49,7 +49,7 @@ const constructFilter = (filters, accessor = parentObject => parentObject) => {
     try {
       const value = accessor(parentObject);
       return childFilters.every(childFilter => childFilter(value));
-    } catch (error) {
+    } catch {
       // This happens when a user-agent lacks a nested property.
       return false;
     }
@@ -116,7 +116,7 @@ export default class UserAgent extends Function {
   static random = (filters) => {
     try {
       return new UserAgent(filters);
-    } catch (error) {
+    } catch {
       return null;
     }
   };

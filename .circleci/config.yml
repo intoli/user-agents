@@ -8,7 +8,7 @@ whitelist: &whitelist
     - .babelrc
     - .clabot
     - .circleci/*
-    - .eslintrc
+    - eslint.config.js
     - .git/*
     - .github/*
     - .gitignore
@@ -34,11 +34,26 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
+      - persist_to_workspace:
+          root: ~/user-agents
+          <<: *whitelist
+
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/user-agents
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Lint
+          command: |
+            yarn lint
       - persist_to_workspace:
           root: ~/user-agents
           <<: *whitelist
@@ -73,7 +88,7 @@ jobs:
           key: dependency-cache-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: dependency-cache-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
           paths:
@@ -155,6 +170,12 @@ workflows:
   build:
     jobs:
       - checkout
+      - lint:
+          filters:
+            tags:
+              ignore: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - checkout
       - build:
           filters:
             tags:
@@ -179,6 +200,14 @@ workflows:
               only: /v1(\.[0-9]+)*/
             branches:
               ignore: /.*/
+      - lint:
+          filters:
+            tags:
+              only: /v1(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - checkout
       - build:
           filters:
             tags:

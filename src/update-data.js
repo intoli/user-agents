@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import fs from "fs";
 import { gzipSync } from "zlib";
 
@@ -38,8 +37,8 @@ const getUserAgentTable = async (limit = 1e4) => {
   // Scan through all recent profiles keeping track of the count of each.
   let lastKey = null;
   const countsByProfile = {};
-  let totalCount = 0;
-  let uniqueCount = 0;
+  let _totalCount = 0;
+  let _uniqueCount = 0;
   let ipAddressAlreadySeen = {};
   do {
     const scan = SubmissionModel.scan(
@@ -62,10 +61,10 @@ const getUserAgentTable = async (limit = 1e4) => {
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
         countsByProfile[stringifiedProfile] = 0;
-        uniqueCount += 1;
+        _uniqueCount += 1;
       }
       countsByProfile[stringifiedProfile] += 1;
-      totalCount += 1;
+      _totalCount += 1;
     });
 
     lastKey = response.lastKey;
@@ -84,7 +83,7 @@ const getUserAgentTable = async (limit = 1e4) => {
   // Accumulate the profiles and add/remove a few properties to match the historical format.
   const profiles = [];
   for (let stringifiedProfile in countsByProfile) {
-    if (countsByProfile.hasOwnProperty(stringifiedProfile)) {
+    if (Object.hasOwn(countsByProfile, stringifiedProfile)) {
       const profile = JSON.parse(stringifiedProfile);
       profile.weight = countsByProfile[stringifiedProfile];
       delete profile.sessionId;
@@ -140,7 +139,6 @@ if (!module.parent) {
       fs.writeFileSync(filename, content);
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
       process.exit(1);
     });
