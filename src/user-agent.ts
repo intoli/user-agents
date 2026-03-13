@@ -216,6 +216,18 @@ export class UserAgent {
     return userAgent;
   };
 
+  top = (count?: number): UserAgentData[] => {
+    // Recover individual weights from the cumulative distribution and sort by descending weight.
+    const pairs = this.cumulativeWeightIndexPairs;
+    const entries = pairs.map(([cumWeight, index], i) => ({
+      weight: i > 0 ? cumWeight - pairs[i - 1][0] : cumWeight,
+      index,
+    }));
+    entries.sort((a, b) => b.weight - a.weight);
+    const n = count != null ? Math.min(count, entries.length) : entries.length;
+    return entries.slice(0, n).map(({ index }) => structuredClone(userAgents[index]));
+  };
+
   randomize = (): void => {
     // Find a random raw random user agent.
     const randomNumber = Math.random();
