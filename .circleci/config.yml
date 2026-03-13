@@ -79,6 +79,9 @@ jobs:
       - attach_workspace:
           at: ~/user-agents
       - run:
+          name: Upgrade npm for OIDC trusted publishing support
+          command: sudo npm install -g npm@11.11.1
+      - run:
           name: Install dot-json package
           command: npm install --no-save dot-json
       - run:
