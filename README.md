@@ -296,14 +296,30 @@ Note that each property of `data` is also accessible directly on `userAgent`.
 For example, `userAgent.appName` is equivalent to `userAgent.data.appName`.
 
 
+## Data
+
+The dataset is built from a snapshot of the last 24 hours of real-world browser traffic, and a new version of the package is published daily with a fully refreshed dataset.
+This means that the data is not accumulated over time; older browser versions are naturally phased out as they disappear from the traffic, and each release reflects a current view of the browser landscape.
+
+User agents are not selected with uniform probability.
+Each profile in the dataset is weighted according to its real-world usage frequency, so commonly seen browsers like Chrome on Windows will appear far more often than niche configurations.
+The result is a random distribution that closely mirrors actual web traffic.
+
+
 ## Versioning
 
 The project follows [the Semantic Versioning guidelines](https://semver.org/).
 The automated deployments will always correspond to patch versions, and minor versions should not introduce breaking changes.
-It's likely that the structure of user agent data will change in the future, and this will correspond to a new major version.
 
-Please keep in mind that older major versions will cease to be updated after a new major version is released.
-You can continue to use older versions of the software, but you'll need to upgrade to get access to the latest data.
+The current `latest` release on npm is v1, which is built with JavaScript and Webpack and outputs a UMD bundle.
+The upcoming v2 release is available under the `next` tag (`npm install user-agents@next`) and includes several improvements:
+
+- Rewritten in TypeScript with exported type definitions for `UserAgentData` and `Filter`.
+- Built with tsup, producing native ESM and CJS entry points instead of a UMD bundle.
+- Removed the `Function` class inheritance, which resolves Content Security Policy errors in browser extensions and other restricted environments.
+
+The v1 line is deprecated and will stop receiving daily data updates once v2 is promoted to `latest`.
+Both versions receive the same daily data and share an identical API surface, so upgrading should be straightforward.
 
 
 ## Acknowledgements
