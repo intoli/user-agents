@@ -1,5 +1,3 @@
-import cloneDeep from 'lodash.clonedeep';
-
 import untypedUserAgents from './user-agents.json' with { type: 'json' };
 
 const userAgents: UserAgentData[] = untypedUserAgents as UserAgentData[];
@@ -212,6 +210,6 @@ export class UserAgent extends Function {
     }
     const rawUserAgent = userAgents[index];
 
-    (this as { data: UserAgentData }).data = cloneDeep(rawUserAgent);
+    (this as { data: UserAgentData }).data = structuredClone(rawUserAgent);
   };
 }
