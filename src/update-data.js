@@ -64,6 +64,9 @@ const getUserAgentTable = async (limit = 1e4) => {
       // Real browser UA strings are always pure ASCII per the HTTP spec.
       if (/[^\x20-\x7E]/.test(profile.userAgent)) return;
 
+      // Filter out the literal `{userAgent}` placeholder string that some clients send.
+      if (profile.userAgent === '{userAgent}') return;
+
       // Track the counts for this exact profile.
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
