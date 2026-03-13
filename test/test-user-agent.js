@@ -203,6 +203,45 @@ describe('UserAgent', () => {
     });
   });
 
+  describe('top()', () => {
+    it('return the requested number of entries', () => {
+      const userAgent = new UserAgent();
+      const top10 = userAgent.top(10);
+      assert(top10.length === 10);
+    });
+
+    it('return entries sorted by descending weight', () => {
+      const userAgent = new UserAgent();
+      const top100 = userAgent.top(100);
+      for (let i = 1; i < top100.length; i++) {
+        assert(top100[i - 1].weight >= top100[i].weight);
+      }
+    });
+
+    it('respect filters', () => {
+      const userAgent = new UserAgent({ deviceCategory: 'mobile' });
+      const top10 = userAgent.top(10);
+      top10.forEach((entry) => {
+        assert(entry.deviceCategory === 'mobile');
+      });
+    });
+
+    it('return fewer entries when count exceeds dataset size', () => {
+      const userAgent = new UserAgent({ deviceCategory: 'tablet' });
+      const total = userAgent.cumulativeWeightIndexPairs.length;
+      const topAll = userAgent.top(total + 100);
+      assert(topAll.length === total);
+    });
+
+    it('return cloned data objects', () => {
+      const userAgent = new UserAgent();
+      const top1a = userAgent.top(1);
+      const top1b = userAgent.top(1);
+      assert(top1a[0] !== top1b[0]);
+      assert(top1a[0].userAgent === top1b[0].userAgent);
+    });
+  });
+
   describe('cumulativeWeightIndexPairs', () => {
     it('have a length greater than 100', () => {
       const userAgent = new UserAgent();
