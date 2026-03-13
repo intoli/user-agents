@@ -17,6 +17,7 @@ module.exports = {
     library: 'user-agents',
     libraryTarget: 'umd',
     umdNamedDefine: true,
+    globalObject: 'typeof self !== "undefined" ? self : this',
   },
   module: {
     rules: [
