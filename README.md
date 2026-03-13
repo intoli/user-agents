@@ -194,6 +194,30 @@ const userAgent = new UserAgent([
 This example also shows that you can specify both multiple and nested properties on object filters.
 
 
+### Filtering for Modern Browsers
+
+If you want to restrict the generated user agents to only modern browsers, you can combine User-Agents with the [browserslist](https://www.npmjs.com/package/browserslist) and [browserslist-useragent](https://www.npmjs.com/package/browserslist-useragent) packages.
+The `browserslist` package lets you define what "modern" means using flexible queries like `"last 2 versions and not dead"`, and `browserslist-useragent` handles matching user agent strings against those queries.
+
+```javascript
+import browserslist from 'browserslist';
+import { matchesUA } from 'browserslist-useragent';
+import UserAgent from 'user-agents';
+
+const browsers = browserslist('last 2 versions and not dead');
+
+function isModernBrowser(data) {
+  return matchesUA(data.userAgent, { browsers, allowHigherVersions: true });
+}
+
+const userAgent = new UserAgent(isModernBrowser);
+```
+
+The `allowHigherVersions` option ensures that browser versions newer than those in the browserslist database are still accepted.
+Keep in mind that the User-Agents data is already updated daily from real-world traffic, so the generated user agents are naturally skewed toward modern browsers even without explicit filtering.
+You can find the full list of supported browserslist queries in the [browserslist documentation](https://github.com/browserslist/browserslist#full-list).
+
+
 ## API
 
 ### class: UserAgent([filters])
