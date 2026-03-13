@@ -106,7 +106,7 @@ const constructFilter = <T extends UserAgentData | NestedValueOf<UserAgentData>>
     try {
       const value = accessor(parentObject);
       return childFilters.every((childFilter) => childFilter(value as T));
-    } catch (error) {
+    } catch {
       // This happens when a user-agent lacks a nested property.
       return false;
     }
@@ -154,7 +154,6 @@ export class UserAgent extends Function {
 
     this.randomize();
 
-    // eslint-disable-next-line no-constructor-return
     return new Proxy(this, {
       apply: () => this.random(),
       get: (target, property, receiver) => {
@@ -178,7 +177,7 @@ export class UserAgent extends Function {
   static random = (filters: Filter) => {
     try {
       return new UserAgent(filters);
-    } catch (error) {
+    } catch {
       return null;
     }
   };

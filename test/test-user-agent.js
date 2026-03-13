@@ -66,7 +66,7 @@ describe('UserAgent', () => {
     it('throw an error when no filters match', () => {
       let storedError;
       try {
-        const userAgent = new UserAgent({ deviceCategory: 'fake-no-matches' });
+        new UserAgent({ deviceCategory: 'fake-no-matches' });
       } catch (error) {
         storedError = error;
       }

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import fs from 'fs';
 import { argv } from 'process';
 import { fileURLToPath } from 'url';
@@ -91,7 +90,7 @@ const getUserAgentTable = async (limit = 1e4) => {
   // Accumulate the profiles and add/remove a few properties to match the historical format.
   const profiles: UserAgentData[] = [];
   Object.entries(countsByProfile).forEach(([stringifiedProfile, weight]) => {
-    if (countsByProfile.hasOwnProperty(stringifiedProfile)) {
+    if (Object.hasOwn(countsByProfile, stringifiedProfile)) {
       const profile = JSON.parse(stringifiedProfile);
       profile.weight = weight;
       delete profile.sessionId;
@@ -136,7 +135,6 @@ if (fileURLToPath(import.meta.url) === argv[1]) {
       fs.writeFileSync(filename, content);
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
       process.exit(1);
     });
