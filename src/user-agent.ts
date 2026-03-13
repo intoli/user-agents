@@ -144,34 +144,12 @@ const setCumulativeWeightIndexPairs = (
   });
 };
 
-export class UserAgent extends Function {
-  constructor(filters?: Filter) {
-    super();
-    setCumulativeWeightIndexPairs(this, constructCumulativeWeightIndexPairsFromFilters(filters));
-    if (this.cumulativeWeightIndexPairs.length === 0) {
-      throw new Error('No user agents matched your filters.');
-    }
+// WeakSet tracking all UserAgent instances for `instanceof` support through proxies.
+const userAgentInstances = new WeakSet<object>();
 
-    this.randomize();
-
-    return new Proxy(this, {
-      apply: () => this.random(),
-      get: (target, property, receiver) => {
-        const dataCandidate =
-          target.data &&
-          typeof property === 'string' &&
-          Object.prototype.hasOwnProperty.call(target.data, property) &&
-          Object.prototype.propertyIsEnumerable.call(target.data, property);
-        if (dataCandidate) {
-          const value = target.data[property as keyof UserAgentData];
-          if (value !== undefined) {
-            return value;
-          }
-        }
-
-        return Reflect.get(target, property, receiver);
-      },
-    });
+export class UserAgent {
+  static [Symbol.hasInstance](instance: unknown): boolean {
+    return instance instanceof Object && userAgentInstances.has(instance as object);
   }
 
   static random = (filters: Filter) => {
@@ -182,9 +160,50 @@ export class UserAgent extends Function {
     }
   };
 
-  //
-  // Standard Object Methods
-  //
+  readonly data!: UserAgentData;
+
+  constructor(filters?: Filter) {
+    setCumulativeWeightIndexPairs(this, constructCumulativeWeightIndexPairsFromFilters(filters));
+    if (this.cumulativeWeightIndexPairs.length === 0) {
+      throw new Error('No user agents matched your filters.');
+    }
+
+    this.randomize();
+
+    // Use a plain function as the proxy target so the `apply` trap works without
+    // extending `Function`, which requires `eval` and violates CSP in browser extensions.
+    // All property access is forwarded to the real UserAgent instance via the traps.
+    const target = () => {};
+    const proxy = new Proxy(target as unknown as this, {
+      apply: () => this.random(),
+      get: (_target, property) => {
+        if (
+          this.data &&
+          typeof property === 'string' &&
+          Object.prototype.hasOwnProperty.call(this.data, property) &&
+          Object.prototype.propertyIsEnumerable.call(this.data, property)
+        ) {
+          const value = this.data[property as keyof UserAgentData];
+          if (value !== undefined) {
+            return value;
+          }
+        }
+
+        return Reflect.get(this, property);
+      },
+      set: (_target, property, value) => Reflect.set(this, property, value),
+      defineProperty: (_target, property, descriptor) =>
+        Reflect.defineProperty(this, property, descriptor),
+      getOwnPropertyDescriptor: (_target, property) =>
+        Reflect.getOwnPropertyDescriptor(this, property),
+      has: (_target, property) => Reflect.has(this, property),
+      deleteProperty: (_target, property) => Reflect.deleteProperty(this, property),
+      ownKeys: () => Reflect.ownKeys(this),
+      getPrototypeOf: () => UserAgent.prototype,
+    });
+    userAgentInstances.add(proxy);
+    return proxy;
+  }
 
   [Symbol.toPrimitive] = (): string => this.data.userAgent;
 
@@ -207,8 +226,7 @@ export class UserAgent extends Function {
     if (index == null) {
       throw new Error('Error finding a random user agent.');
     }
-    const rawUserAgent = userAgents[index];
 
-    (this as { data: UserAgentData }).data = structuredClone(rawUserAgent);
+    (this as { data: UserAgentData }).data = structuredClone(userAgents[index]);
   };
 }
