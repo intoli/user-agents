@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/user-agents
   docker:
-    - image: circleci/node:fermium
+    - image: cimg/node:22.22
 
 whitelist: &whitelist
   paths:
@@ -24,7 +24,7 @@ whitelist: &whitelist
     - webpack.config.js
     - yarn.lock
 
-version: 2
+version: 2.1
 jobs:
   checkout:
     <<: *defaults
@@ -60,12 +60,24 @@ jobs:
           <<: *whitelist
 
   test:
-    <<: *defaults
+    parameters:
+      node-version:
+        type: string
+    working_directory: ~/user-agents
+    docker:
+      - image: node:<< parameters.node-version >>
     steps:
       - attach_workspace:
           at: ~/user-agents
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-node<< parameters.node-version >>-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
       - run:
           name: Test
           command: |
@@ -140,8 +152,6 @@ jobs:
             git push --tags
 
 workflows:
-  version: 2
-
   build:
     jobs:
       - checkout
@@ -157,6 +167,9 @@ workflows:
               ignore: /v[0-9]+(\.[0-9]+)*/
           requires:
             - build
+          matrix:
+            parameters:
+              node-version: ["18", "20", "22", "24", "25"]
 
   release:
     jobs:
@@ -182,6 +195,9 @@ workflows:
               ignore: /.*/
           requires:
             - build
+          matrix:
+            parameters:
+              node-version: ["18", "20", "22", "24", "25"]
       - deploy:
           filters:
             tags:
@@ -211,6 +227,9 @@ workflows:
       - test:
           requires:
             - build
+          matrix:
+            parameters:
+              node-version: ["18", "20", "22", "24", "25"]
       - publish-new-version:
           requires:
             - test
