@@ -57,6 +57,10 @@ const getUserAgentTable = async (limit = 1e4) => {
       // Filter out bots like Googlebot and YandexBot.
       if (isbot(profile.userAgent)) return;
 
+      // Filter out spam/fake user agents with non-ASCII characters.
+      // Real browser UA strings are always pure ASCII per the HTTP spec.
+      if (/[^\x20-\x7E]/.test(profile.userAgent)) return;
+
       // Track the counts for this exact profile.
       const stringifiedProfile = stableStringify(profile);
       if (!countsByProfile[stringifiedProfile]) {
