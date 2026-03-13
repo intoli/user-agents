@@ -9,7 +9,7 @@ whitelist: &whitelist
     - .circleci/*
     - .clabot
     - .dir-locals.el
-    - .eslintrc
+    - eslint.config.js
     - .git/*
     - .github/*
     - .gitignore
