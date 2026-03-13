@@ -96,6 +96,97 @@ describe('UserAgent', () => {
     });
   });
 
+  describe('instanceof', () => {
+    it('report instances as instanceof UserAgent', () => {
+      const userAgent = new UserAgent();
+      assert(userAgent instanceof UserAgent);
+    });
+
+    it('report filtered instances as instanceof UserAgent', () => {
+      const userAgent = new UserAgent({ deviceCategory: 'desktop' });
+      assert(userAgent instanceof UserAgent);
+    });
+
+    it('report instances from random() as instanceof UserAgent', () => {
+      const base = new UserAgent();
+      const userAgent = base.random();
+      assert(userAgent instanceof UserAgent);
+    });
+
+    it('report instances from static random() as instanceof UserAgent', () => {
+      const userAgent = UserAgent.random({ userAgent: /Chrome/ });
+      assert(userAgent instanceof UserAgent);
+    });
+  });
+
+  describe('typeof', () => {
+    it('report typeof as function', () => {
+      const userAgent = new UserAgent();
+      assert(typeof userAgent === 'function');
+    });
+  });
+
+  describe('string coercion', () => {
+    it('coerce to user agent string with String()', () => {
+      const userAgent = new UserAgent();
+      const str = String(userAgent);
+      assert(typeof str === 'string');
+      assert(str.length > 0);
+      assert(str === userAgent.data.userAgent);
+    });
+
+    it('coerce to user agent string in template literals', () => {
+      const userAgent = new UserAgent();
+      const str = `${userAgent}`;
+      assert(str === userAgent.data.userAgent);
+    });
+
+    it('coerce to user agent string with toString()', () => {
+      const userAgent = new UserAgent();
+      assert(userAgent.toString() === userAgent.data.userAgent);
+    });
+  });
+
+  describe('property access', () => {
+    it('expose data properties directly on the instance', () => {
+      const userAgent = new UserAgent();
+      assert(userAgent.userAgent === userAgent.data.userAgent);
+      assert(userAgent.deviceCategory === userAgent.data.deviceCategory);
+      assert(userAgent.screenWidth === userAgent.data.screenWidth);
+      assert(userAgent.screenHeight === userAgent.data.screenHeight);
+      assert(userAgent.platform === userAgent.data.platform);
+      assert(userAgent.vendor === userAgent.data.vendor);
+    });
+
+    it('return the data object from the data property', () => {
+      const userAgent = new UserAgent();
+      assert(typeof userAgent.data === 'object');
+      assert(userAgent.data !== null);
+      assert(typeof userAgent.data.userAgent === 'string');
+    });
+
+    it('provide access to methods through the proxy', () => {
+      const userAgent = new UserAgent();
+      assert(typeof userAgent.random === 'function');
+      assert(typeof userAgent.toString === 'function');
+      assert(typeof userAgent.randomize === 'function');
+    });
+
+    it('return new data after calling randomize()', () => {
+      const userAgent = new UserAgent();
+      // Run many times to ensure at least one gives different data.
+      let foundDifferent = false;
+      const original = userAgent.data.userAgent;
+      range.forEach(() => {
+        userAgent.randomize();
+        if (userAgent.data.userAgent !== original) {
+          foundDifferent = true;
+        }
+      });
+      assert(foundDifferent);
+    });
+  });
+
   describe('cumulativeWeightIndexPairs', () => {
     it('have a length greater than 100', () => {
       const userAgent = new UserAgent();
