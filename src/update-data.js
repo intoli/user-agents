@@ -57,6 +57,9 @@ const getUserAgentTable = async (limit = 1e4) => {
       // Filter out bots like Googlebot and YandexBot.
       if (isbot(profile.userAgent)) return;
 
+      // Strip extra quotes that some browsers include around the user agent string.
+      profile.userAgent = profile.userAgent.replace(/^"|"$/g, '');
+
       // Filter out spam/fake user agents with non-ASCII characters.
       // Real browser UA strings are always pure ASCII per the HTTP spec.
       if (/[^\x20-\x7E]/.test(profile.userAgent)) return;
