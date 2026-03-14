@@ -17,13 +17,13 @@
             alt="NPM Version"></a>
     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <a target="_blank" href="https://twitter.com/home?status=User%20Agents%20is%20a%20JavaScript%20module%20for%20generating%20random%20user%20agents%20that's%20updated%20daily%20with%20new%20market%20share%20data.%0A%0Ahttps%3A//github.com/intoli/user-agents">
-        <img height="26px" src="https://simplesharebuttons.com/images/somacro/twitter.png"
+        <img height="26px" src="media/twitter.png"
             alt="Tweet"></a>
     <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//github.com/intoli/user-agents">
-        <img height="26px" src="https://simplesharebuttons.com/images/somacro/facebook.png"
+        <img height="26px" src="media/facebook.png"
             alt="Share on Facebook"></a>
     <a target="_blank" href="http://reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fintoli%2Fuser-agents&title=User%20Agents%20-%20Random%20user%20agent%20generation%20with%20daily-updated%20market%20share%20data">
-        <img height="26px" src="https://simplesharebuttons.com/images/somacro/reddit.png"
+        <img height="26px" src="media/reddit.png"
             alt="Share on Reddit"></a>
     <a target="_blank" href="https://news.ycombinator.com/submitlink?u=https://github.com/intoli/user-agents&t=User%20Agents%20-%20Random%20user%20agent%20generation%20with%20daily-updated%20market%20share%20data">
         <img height="26px" src="media/ycombinator.png"
