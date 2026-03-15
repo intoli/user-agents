@@ -240,6 +240,27 @@ describe('UserAgent', () => {
       assert(top1a[0] !== top1b[0]);
       assert(top1a[0].userAgent === top1b[0].userAgent);
     });
+
+    it('static top() return the requested number of filtered entries', () => {
+      const top10 = UserAgent.top(10, { deviceCategory: 'desktop' });
+      assert(top10.length === 10);
+      top10.forEach((entry) => {
+        assert(entry.deviceCategory === 'desktop');
+      });
+    });
+
+    it('static top() return entries sorted by descending weight', () => {
+      const top100 = UserAgent.top(100);
+      for (let i = 1; i < top100.length; i++) {
+        assert(top100[i - 1].weight >= top100[i].weight);
+      }
+    });
+
+    it('static top() return an empty array when filters match nothing', () => {
+      const result = UserAgent.top(10, { userAgent: 'Definitely Not A Real User Agent' });
+      assert(Array.isArray(result));
+      assert(result.length === 0);
+    });
   });
 
   describe('cumulativeWeightIndexPairs', () => {

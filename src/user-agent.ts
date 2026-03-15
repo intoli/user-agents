@@ -160,6 +160,15 @@ export class UserAgent {
     }
   };
 
+  // Static version that creates a temporary instance with the given filters and returns the top entries.
+  static top = (count?: number, filters?: Filter): UserAgentData[] => {
+    try {
+      return new UserAgent(filters).top(count);
+    } catch {
+      return [];
+    }
+  };
+
   readonly data!: UserAgentData;
 
   constructor(filters?: Filter) {

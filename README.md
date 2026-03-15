@@ -236,22 +236,37 @@ Other properties can be accessed as outlined below.
 - returns: <`UserAgent`>
 
 This method generates a new `UserAgent` instance using the same filters that were used to construct `userAgent`.
-The following examples both generate two user agents based on the same filters.
+You can also call `UserAgent.random(filters)` as a static method, which is equivalent to `new UserAgent(filters)` but returns `null` instead of throwing if the filters match no user agents.
 
 ```javascript
-// Explicitly use the constructor twice.
-const firstUserAgent = new UserAgent(filters);
-const secondUserAgent = new UserAgent(filters);
-```
-
-```javascript
-// Use the `random()` method to construct a second user agent.
+// Use the instance method to reuse filter processing.
 const firstUserAgent = new UserAgent(filters);
 const secondUserAgent = firstUserAgent.random();
+
+// Or use the static method directly.
+const otherUserAgent = UserAgent.random(filters);
 ```
 
-The reason to prefer the second pattern is that it reuses the filter processing and preparation of the data for random selection.
+The reason to prefer the instance method is that it reuses the filter processing and preparation of the data for random selection.
 Subsequent random generations can easily be over 100x faster than the initial construction.
+
+
+#### userAgent.top()
+
+- `count` <`Number`> - The number of top entries to return. If omitted, all matching entries are returned.
+- returns: <`UserAgentData[]`>
+
+Returns the most common user agents from the filtered dataset, ordered by descending frequency.
+Like `random()`, this is available both as an instance method and as a static method.
+
+```javascript
+// Use the instance method with pre-configured filters.
+const mobileAgents = new UserAgent({ deviceCategory: 'mobile' });
+const topMobile = mobileAgents.top(5);
+
+// Or use the static method directly.
+const topDesktop = UserAgent.top(5, { deviceCategory: 'desktop' });
+```
 
 
 #### userAgent()
