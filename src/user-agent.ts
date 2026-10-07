@@ -36,7 +36,10 @@ export interface UserAgentData {
   screenWidth: number;
   userAgent: string;
   vendor: 'Apple Computer, Inc.' | 'Google Inc.' | '';
+  viewportHeight: number;
+  viewportWidth: number;
   weight: number;
+  deviceCategory: 'desktop' | 'mobile' | 'tablet';
 }
 
 declare module './user-agent' {
